@@ -1,0 +1,202 @@
+/* ---- particles.js container ---- */
+
+#particles-js{
+    width: 100%;
+    height: 400px;
+    nothing:background-color: #000000;
+    background-image: url('');
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    z-index: 0;
+}
+
+  /* Due Process Academy stylesheet */
+
+/* custom fonts */
+@font-face {
+  font-family: "Bebas Neue Pro";
+  src: url('https://github.com/dharmatype/Bebas-Neue/blob/master/fonts/BebasNeue(2018)ByDhamraType/ttf/BebasNeue-Regular.ttf');
+}
+
+.container-padding-top {
+  padding-top: 15px;
+}
+
+/* changing element colors */
+.bg-dark {
+  background-color: black !important;
+}
+
+.table .thead-dark th {
+  background-color: #014a64;
+  border-color: #014b64;
+}
+
+.title {
+    height: 400px;
+    position: relative;
+}
+
+/* type styling */
+html {
+  font-family: "Roboto", sans-serif;
+  font-size: 12pt;
+  color: #ffffff;
+  background-color: black;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 12pt;
+  color: #ffffff;
+  background-color: black;
+}
+
+h1, h2, h3 {
+  font-family: "Lato", sans-serif;
+}
+
+h1 {
+  font-size: 3.25em;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 2.25em;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 1.875em;
+  font-weight: 400;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1em;
+}
+
+a {
+    color: #e00000;
+}
+
+a:hover {
+  color: #810000;
+}
+
+.navbar {
+    padding: 1rem 1rem;
+    
+}
+
+.title {
+    margin: 1px 0;
+    padding: 15px 0;
+
+}
+
+.title-content > .row {
+    padding: 100px 0;
+    position: relative;
+
+    z-index: 10;
+}
+
+.title-text {
+  height: 200px;
+}
+
+.px-1 {
+    padding-right: .5rem!important;
+    padding-left: .5rem!important;
+}
+
+.card {
+    background-color: #000000;
+}
+
+.list-group-item {
+  background-color: #000000;
+}
+
+.btn-bottom-border {
+  border-bottom: 2px solid white;
+  color: #e00000;
+}
+
+.red {
+  color: #e00000;
+}
+
+.socialmedia {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  font-size: 4em;
+  font-weight: 400px;
+  padding: 30px;
+}
+
+.social-media-item {
+  margin: 1rem 20px;
+  color: white;
+}
+
+
+.social
+
+/* unused */
+/*.nav-link {
+
+}
+
+.nav-link:hover {
+
+}
+
+.active a {
+
+} */
+
+.terminal > h1, .terminal > h2, .terminal > h3 {
+    font-family: "Source Code Pro", monospace;
+}
+
+.command {
+    color: #e00000;
+}
+
+.terminal {
+    margin-bottom: 5px;
+}
+
+
+
+.cursor {
+    content:'';
+    display:inline-block;
+    margin-left:3px;
+    background-color:white;
+    animation-name:blink;
+    animation-duration:2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity:1;
+    }
+    49% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:0;
+    }
+}
