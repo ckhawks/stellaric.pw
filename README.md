@@ -1,4 +1,8 @@
 # stellaric.pw
 My personal website
 
-This project utilizes [particles.js](https://github.com/VincentGarreau/particles.js/) and [highlight.js](https://github.com/highlightjs/highlight.js).
+Dependencies
+* [particles.js](https://github.com/VincentGarreau/particles.js/)
+* [highlight.js](https://github.com/highlightjs/highlight.js)
+* [Bootstrap](https://getbootstrap.com/)
+* [Font Awesome](https://fontawesome.com/)
