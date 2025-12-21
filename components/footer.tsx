@@ -4,7 +4,13 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border mt-24 bg-background">
+    <footer
+      className="border-t border-border mt-24 bg-background"
+      style={{
+        backdropFilter: "saturate(180%) blur(3px)",
+        background: "unset",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex sm:flex-row flex-col items-center justify-between gap-4">
           <div className="flex flex-col gap-2">

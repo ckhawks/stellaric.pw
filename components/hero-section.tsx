@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { ParticlesBackground } from "./particles-background";
 
 export function HeroSection() {
   return (
-    <section className="relative py-30 space-y-8">
+    <section className="relative py-30 space-y-8 overflow-hidden">
       <div className="absolute inset-0 -z-10 overflow-hidden">
+        <ParticlesBackground />
         {/* <div
           className="absolute inset-0 red-grid-animate"
           style={{

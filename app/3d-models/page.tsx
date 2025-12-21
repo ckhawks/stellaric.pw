@@ -1,7 +1,13 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Cable as Cube, Download, Eye } from "lucide-react"
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Cable as Cube, Download, Eye } from "lucide-react";
 
 export default function ModelsPage() {
   const models = [
@@ -47,10 +53,10 @@ export default function ModelsPage() {
       description: "Trees, rocks, and vegetation for outdoor scenes",
       thumbnail: "/placeholder.svg?height=200&width=300",
     },
-  ]
+  ];
 
   return (
-    <div className="min-h-screen grid-pattern pb-20">
+    <div className="min-h-screen grid-pattern pb-7">
       <div className="scanlines">
         <Header />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
@@ -59,13 +65,17 @@ export default function ModelsPage() {
               <span className="text-accent">&gt;</span> 3D MODELS
             </h1>
             <p className="text-muted-foreground">
-              Low-poly 3D models for games and environments. Built in Blender, optimized for real-time rendering.
+              Low-poly 3D models for games and environments. Built in Blender,
+              optimized for real-time rendering.
             </p>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {models.map((model, i) => (
-              <Card key={i} className="border-border bg-card hover-glow border-glow overflow-hidden">
+              <Card
+                key={i}
+                className="border-border bg-card hover-glow border-glow overflow-hidden"
+              >
                 <div className="relative aspect-video bg-muted">
                   <img
                     src={model.thumbnail || "/placeholder.svg"}
@@ -85,7 +95,9 @@ export default function ModelsPage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <CardTitle className="text-lg">{model.name}</CardTitle>
-                      <CardDescription className="mt-1">{model.description}</CardDescription>
+                      <CardDescription className="mt-1">
+                        {model.description}
+                      </CardDescription>
                     </div>
                   </div>
                 </CardHeader>
@@ -95,7 +107,9 @@ export default function ModelsPage() {
                       <Cube className="w-3 h-3" />
                       <span>{model.polycount}</span>
                     </div>
-                    <div className="px-2 py-0.5 bg-secondary border border-border">{model.category.toUpperCase()}</div>
+                    <div className="px-2 py-0.5 bg-secondary border border-border">
+                      {model.category.toUpperCase()}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -106,15 +120,17 @@ export default function ModelsPage() {
             <CardHeader>
               <CardTitle>Three.js Viewer</CardTitle>
               <CardDescription>
-                Interactive 3D model viewer would be rendered here using Three.js. Click on any model above to load it
-                in this viewer.
+                Interactive 3D model viewer would be rendered here using
+                Three.js. Click on any model above to load it in this viewer.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="aspect-video bg-muted rounded border border-border flex items-center justify-center">
                 <div className="text-center space-y-2">
                   <Cube className="w-12 h-12 mx-auto text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">Select a model to view in 3D</p>
+                  <p className="text-sm text-muted-foreground">
+                    Select a model to view in 3D
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -123,5 +139,5 @@ export default function ModelsPage() {
         <Footer />
       </div>
     </div>
-  )
+  );
 }
