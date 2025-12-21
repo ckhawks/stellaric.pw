@@ -31,28 +31,28 @@ export function Footer() {
                 href="https://github.com"
                 className="text-muted-foreground hover:text-accent transition-colors"
               >
-                <Github className="w-5 h-5" />
+                <Github className="w-5 h-5 opacity-70" />
                 <span className="sr-only">GitHub</span>
               </Link>
               <Link
                 href="https://twitter.com"
                 className="text-muted-foreground hover:text-accent transition-colors"
               >
-                <Twitter className="w-5 h-5" />
+                <Twitter className="w-5 h-5 opacity-70" />
                 <span className="sr-only">Twitter</span>
               </Link>
               <Link
                 href="https://linkedin.com"
                 className="text-muted-foreground hover:text-accent transition-colors"
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="w-5 h-5 opacity-70" />
                 <span className="sr-only">LinkedIn</span>
               </Link>
               <Link
                 href="mailto:hello@stellaric.pw"
                 className="text-muted-foreground hover:text-accent transition-colors"
               >
-                <Mail className="w-5 h-5" />
+                <Mail className="w-5 h-5 opacity-70" />
                 <span className="sr-only">Email</span>
               </Link>
             </div>

@@ -12,11 +12,19 @@ import {
   Wifi,
   HardDrive,
 } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface SpotifyData {
   isPlaying: boolean;
   title?: string;
   artist?: string;
+  album?: string;
+  albumImageUrl?: string;
+  songUrl?: string;
 }
 
 export function GlobalStateMonitor() {
@@ -28,6 +36,7 @@ export function GlobalStateMonitor() {
     isPlaying: false,
   });
   const [currentMetric, setCurrentMetric] = useState(0);
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   const rotatingMetrics = [
     {
@@ -108,7 +117,7 @@ export function GlobalStateMonitor() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background backdrop-blur-sm backdrop-brightness-150">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-4 sm:gap-6 h-8 text-xs font-mono overflow-x-auto">
+        <div className="flex flex-wrap text-xs font-mono overflow-x-auto flex-row sm:flex-row h-auto sm:h-8 sm:items-center xs:items-start sm:gap-4 gap-2 md:h-8 xs:h-auto py-2 sm:py-0 overflow-x-none">
           <div className="flex items-center gap-1.5 shrink-0">
             <Zap className="w-3 h-3 text-accent" />
             <span className="text-muted-foreground hidden sm:inline">
@@ -140,17 +149,46 @@ export function GlobalStateMonitor() {
             <span className="text-foreground">{RotatingMetric.value}</span>
           </div>
 
-          {spotifyData.isPlaying && (
-            <div className="flex items-center gap-1.5 shrink-0 max-w-[250px]">
-              <Music className="w-3 h-3 text-green-500 animate-pulse" />
-              <span className="text-foreground truncate">
-                {spotifyData.title} - {spotifyData.artist}
-              </span>
+          <div className="flex items-center gap-1.5 shrink-0 md:ml-auto ml-0 gap-2 md:gap-4 flex-row xs:gap-2 xs:items-start flex-wrap sm:flex-nowrap overflow-x-none">
+            {spotifyData.isPlaying && (
+              <div className="flex items-center gap-1.5 shrink-0 max-w-[250px]">
+                <Music className="w-3 h-3 text-green-500 animate-pulse" />
+                <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+                  <PopoverTrigger asChild>
+                    <button
+                      onMouseEnter={() => setPopoverOpen(true)}
+                      onMouseLeave={() => setPopoverOpen(false)}
+                      onClick={() => {
+                        if (spotifyData.songUrl) {
+                          window.open(spotifyData.songUrl, "_blank");
+                        }
+                      }}
+                      className="text-foreground truncate hover:underline hover:cursor-pointer text-left"
+                    >
+                      {spotifyData.title} - {spotifyData.artist}
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-auto p-0"
+                    side="top"
+                    onMouseEnter={() => setPopoverOpen(true)}
+                    onMouseLeave={() => setPopoverOpen(false)}
+                  >
+                    {spotifyData.albumImageUrl && (
+                      <img
+                        src={spotifyData.albumImageUrl}
+                        alt={spotifyData.album}
+                        className="rounded w-64 h-64"
+                      />
+                    )}
+                  </PopoverContent>
+                </Popover>
+              </div>
+            )}
+            <div className="flex items-center gap-1.5 shrink-0 md:ml-auto sm:ml-0">
+              <Clock className="w-3 h-3 text-muted-foreground" />
+              <span className="text-foreground">{time}</span>
             </div>
-          )}
-          <div className="flex items-center gap-1.5 shrink-0 ml-auto">
-            <Clock className="w-3 h-3 text-muted-foreground" />
-            <span className="text-foreground">{time}</span>
           </div>
         </div>
       </div>

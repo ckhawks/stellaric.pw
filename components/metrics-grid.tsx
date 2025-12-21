@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Card } from "@/components/ui/card"
+import { useEffect, useState } from "react";
+import { Card } from "@/components/ui/card";
 import {
   Activity,
   Clock,
@@ -13,48 +13,55 @@ import {
   Thermometer,
   Wifi,
   Server,
-} from "lucide-react"
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts"
+} from "lucide-react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 
 // Mock data for charts
 const generateMockData = (points: number, min: number, max: number) => {
   return Array.from({ length: points }, (_, i) => ({
     time: i,
     value: Math.floor(Math.random() * (max - min + 1)) + min,
-  }))
-}
+  }));
+};
 
 export function MetricsGrid() {
-  const [secondsAlive, setSecondsAlive] = useState(0)
-  const [mouseClicks, setMouseClicks] = useState(0)
-  const [keystrokes, setKeystrokes] = useState(0)
-  const [cpuData] = useState(generateMockData(20, 20, 80))
-  const [tempData] = useState(generateMockData(24, 18, 24))
+  const [secondsAlive, setSecondsAlive] = useState(0);
+  const [mouseClicks, setMouseClicks] = useState(0);
+  const [keystrokes, setKeystrokes] = useState(0);
+  const [cpuData] = useState(generateMockData(20, 20, 80));
+  const [tempData] = useState(generateMockData(24, 18, 24));
 
   useEffect(() => {
     // Calculate seconds alive (example birthdate)
-    const birthDate = new Date("1995-01-01").getTime()
+    const birthDate = new Date("2000-03-20").getTime();
     const updateSecondsAlive = () => {
-      const now = Date.now()
-      setSecondsAlive(Math.floor((now - birthDate) / 1000))
-    }
-    updateSecondsAlive()
-    const interval = setInterval(updateSecondsAlive, 1000)
+      const now = Date.now();
+      setSecondsAlive(Math.floor((now - birthDate) / 1000));
+    };
+    updateSecondsAlive();
+    const interval = setInterval(updateSecondsAlive, 1000);
 
     // Track mouse clicks
-    const handleClick = () => setMouseClicks((prev) => prev + 1)
-    window.addEventListener("click", handleClick)
+    const handleClick = () => setMouseClicks((prev) => prev + 1);
+    window.addEventListener("click", handleClick);
 
     // Track keystrokes
-    const handleKeydown = () => setKeystrokes((prev) => prev + 1)
-    window.addEventListener("keydown", handleKeydown)
+    const handleKeydown = () => setKeystrokes((prev) => prev + 1);
+    window.addEventListener("keydown", handleKeydown);
 
     return () => {
-      clearInterval(interval)
-      window.removeEventListener("click", handleClick)
-      window.removeEventListener("keydown", handleKeydown)
-    }
-  }, [])
+      clearInterval(interval);
+      window.removeEventListener("click", handleClick);
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  }, []);
 
   const metrics = [
     {
@@ -119,22 +126,31 @@ export function MetricsGrid() {
       icon: HardDrive,
       description: "NAS storage capacity",
     },
-  ]
+  ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {metrics.map((metric) => {
-        const Icon = metric.icon
+        const Icon = metric.icon;
         return (
-          <Card key={metric.title} className="p-6 border-border bg-card hover:border-accent/50 transition-colors">
+          <Card
+            key={metric.title}
+            className="p-6 border-border bg-card hover:border-accent/50 transition-colors"
+          >
             <div className="flex items-start justify-between mb-4">
               <div>
-                <div className="font-mono text-xs text-muted-foreground mb-1">{metric.title}</div>
-                <div className="font-mono text-2xl font-bold text-foreground">{metric.value}</div>
+                <div className="font-mono text-xs text-muted-foreground mb-1">
+                  {metric.title}
+                </div>
+                <div className="font-mono text-2xl font-bold text-foreground">
+                  {metric.value}
+                </div>
               </div>
               <Icon className="w-5 h-5 text-accent" />
             </div>
-            <div className="text-xs text-muted-foreground mb-4">{metric.description}</div>
+            <div className="text-xs text-muted-foreground mb-4">
+              {metric.description}
+            </div>
             {metric.chart && (
               <div className="h-16 -mx-2">
                 <ResponsiveContainer width="100%" height="100%">
@@ -149,14 +165,20 @@ export function MetricsGrid() {
                         fontSize: "12px",
                       }}
                     />
-                    <Line type="monotone" dataKey="value" stroke="hsl(var(--accent))" strokeWidth={2} dot={false} />
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke="var(--accent)"
+                      strokeWidth={2}
+                      dot={false}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             )}
           </Card>
-        )
+        );
       })}
     </div>
-  )
+  );
 }

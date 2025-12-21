@@ -14,15 +14,16 @@ export function Header() {
   const pathname = usePathname();
 
   const navLinks = [
-    { href: "/projects", label: "Projects" },
-    { href: "/blog", label: "Blog" },
     { href: "/about", label: "About" },
-    { href: "/broadcasts", label: "Broadcasts" },
-    { href: "/metrics", label: "Metrics" },
-    { href: "/gear", label: "Gear" },
-    { href: "/photography", label: "Photography" },
-    { href: "/links", label: "Links" },
-    { href: "/3d-models", label: "3D" },
+    { href: "/projects", label: "Projects" },
+    // { href: "/blog", label: "Blog" },
+    // { href: "/broadcasts", label: "Broadcasts" },
+    { href: "/dj-sets", label: "DJ Sets" },
+    // { href: "/metrics", label: "Metrics" },
+    // { href: "/gear", label: "Gear" },
+    // { href: "/photography", label: "Photography" },
+    // { href: "/links", label: "Links" },
+    // { href: "/3d-models", label: "3D" },
   ];
 
   return (
