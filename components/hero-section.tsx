@@ -1,12 +1,14 @@
-import Link from "next/link";
+import { GlitchTitle } from "./glitch-title";
 import { ParticlesBackground } from "./particles-background";
 
 export function HeroSection() {
   return (
     <section className="relative py-30 space-y-8 overflow-hidden">
-      <div className="absolute inset-0 -z-10 overflow-hidden">
+      <div className="absolute inset-0 -z-10">
         <ParticlesBackground />
-        {/* <div
+      </div>
+
+      {/* <div
           className="absolute inset-0 red-grid-animate"
           style={{
             backgroundImage:
@@ -14,21 +16,18 @@ export function HeroSection() {
             backgroundSize: "80px 80px",
           }}
         /> */}
-        {/* <div
+      {/* <div
           className="absolute top-1/3 left-1/5 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
           style={{ transform: "translate(-50%, -50%)" }}
         /> */}
-      </div>
 
       <div className="space-y-4">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        {/* <div className="flex items-center gap-2 text-xs text-muted-foreground border-success border flex flex-row py-1 px-2 rounded-full w-min pr-3 bg-success/20 text-success dark:bg-black">
           <span className="w-2 h-2 bg-success rounded-full animate-pulse" />
-          <span>ONLINE</span>
-        </div>
+          <span>AVAILABLE</span>
+        </div> */}
 
-        <h1 className="text-5xl sm:text-7xl font-bold tracking-tight">
-          <span className="text-foreground">STELLARIC</span>
-        </h1>
+        <GlitchTitle />
 
         <p className="text-xl sm:text-2xl text-muted-foreground max-w-2xl">
           Developer, modder, UX designer, and multimedia creator. Building
@@ -36,26 +35,35 @@ export function HeroSection() {
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-2 text-xs">
+      <div className="flex flex-wrap gap-2 text-xs mb-2">
         <span className="px-3 py-1 bg-secondary border border-border">
-          DATABASE_ADMIN
+          FULLSTACK_DEV
+        </span>
+        <span className="px-3 py-1 bg-secondary border border-border">
+          BROADCAST_PRODUCTION
+        </span>
+        <span className="px-3 py-1 bg-secondary border border-border">
+          UX_DESIGN
+        </span>
+        <span className="px-3 py-1 bg-secondary border border-border">
+          PHOTOGRAPHY
         </span>
         <span className="px-3 py-1 bg-secondary border border-border">
           GAME_MODDING
         </span>
         <span className="px-3 py-1 bg-secondary border border-border">
-          FULLSTACK_DEV
-        </span>
-        <span className="px-3 py-1 bg-secondary border border-border">
-          UX_DESIGNER
-        </span>
-        <span className="px-3 py-1 bg-secondary border border-border">
           3D_MODELING
         </span>
         <span className="px-3 py-1 bg-secondary border border-border">
-          VIDEO_PRODUCTION
+          INFRA_OPS
         </span>
-        <span className="px-3 py-1 bg-secondary border border-border text-success border-success">
+      </div>
+      <div className="flex flex-wrap gap-2 text-xs mt-0">
+        <span className="px-3 py-1 bg-secondary border border-border text-success border-success flex flex-row items-center gap-2 animate-pulse">
+          <span
+            className="w-2 h-2 bg-success rounded-full animate-pulse flex"
+            // style={{ minWidth: "15px", width: "15px" }}
+          />
           SYSTEM_ACTIVE
         </span>
       </div>

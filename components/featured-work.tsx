@@ -1,12 +1,14 @@
-import Link from "next/link"
-import { Card } from "@/components/ui/card"
-import { Camera, Palette, ArrowRight } from "lucide-react"
+import Link from "next/link";
+import { Card } from "@/components/ui/card";
+import { Camera, Palette, ArrowRight } from "lucide-react";
 
 export function FeaturedWork() {
   return (
     <section className="space-y-8">
       <div className="flex items-center justify-between">
-        <h2 className="font-mono text-2xl font-bold text-foreground">Featured Work</h2>
+        <h2 className="font-sans text-2xl font-bold text-foreground">
+          Featured Work
+        </h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -17,7 +19,9 @@ export function FeaturedWork() {
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <Camera className="w-5 h-5 text-accent" />
-                  <h3 className="font-mono text-lg font-semibold text-foreground">Photography</h3>
+                  <h3 className="font-mono text-lg font-semibold text-foreground">
+                    Photography
+                  </h3>
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Landscape, film, and street photography from around the world.
@@ -44,7 +48,9 @@ export function FeaturedWork() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Palette className="w-5 h-5 text-accent" />
-                <h3 className="font-mono text-lg font-semibold text-foreground">UX Design</h3>
+                <h3 className="font-mono text-lg font-semibold text-foreground">
+                  UX Design
+                </h3>
               </div>
               <p className="text-sm text-muted-foreground">
                 Interface design and user experience work for web and mobile.
@@ -55,7 +61,9 @@ export function FeaturedWork() {
           <div className="aspect-video bg-secondary rounded overflow-hidden flex items-center justify-center">
             <div className="text-center p-8">
               <Palette className="w-12 h-12 text-accent mx-auto mb-4" />
-              <p className="font-mono text-sm text-muted-foreground">Design portfolio coming soon</p>
+              <p className="font-mono text-sm text-muted-foreground">
+                Design portfolio coming soon
+              </p>
             </div>
           </div>
           <div className="mt-4 font-mono text-xs text-muted-foreground">
@@ -64,5 +72,5 @@ export function FeaturedWork() {
         </Card>
       </div>
     </section>
-  )
+  );
 }

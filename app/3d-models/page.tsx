@@ -59,10 +59,11 @@ export default function ModelsPage() {
     <div className="min-h-screen grid-pattern pb-7">
       <div className="scanlines">
         <Header />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 pt-20 pb-8">
           <div>
             <h1 className="text-4xl font-bold mb-2">
-              <span className="text-accent">&gt;</span> 3D MODELS
+              {/* <span className="text-accent">&gt;</span> */}
+              3D Models
             </h1>
             <p className="text-muted-foreground">
               Low-poly 3D models for games and environments. Built in Blender,

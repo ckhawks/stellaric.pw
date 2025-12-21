@@ -16,7 +16,7 @@ export default function Home() {
           <ProjectsSection />
           <MetricsBento />
           <FeaturedWork />
-          <InterestsSection />
+          {/* <InterestsSection /> */}
         </main>
         <Footer />
       </div>

@@ -178,7 +178,7 @@ export default function GearPage() {
         <Header />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="space-y-6 mb-12">
-            <h1 className="font-mono text-4xl font-bold text-foreground">
+            <h1 className="font-sans text-4xl font-bold text-foreground">
               Gear Rack
             </h1>
             <p className="text-muted-foreground max-w-2xl">
@@ -194,7 +194,7 @@ export default function GearPage() {
                 <div key={category.category}>
                   <div className="flex items-center gap-2 mb-4">
                     <Icon className="w-5 h-5 text-accent" />
-                    <h2 className="font-mono text-xl font-semibold text-foreground">
+                    <h2 className="font-sans text-xl font-semibold text-foreground">
                       {category.category}
                     </h2>
                   </div>
@@ -204,7 +204,7 @@ export default function GearPage() {
                         key={item.name}
                         className="p-4 border-border bg-card hover:border-accent/50 transition-colors"
                       >
-                        <div className="font-mono text-sm font-medium text-foreground mb-1">
+                        <div className="font-sans text-sm font-medium text-foreground mb-1">
                           {item.name}
                         </div>
                         <div className="font-mono text-xs text-accent mb-2">

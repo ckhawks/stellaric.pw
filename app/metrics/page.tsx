@@ -1,3 +1,4 @@
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { MetricsGrid } from "@/components/metrics-grid";
 
@@ -6,9 +7,9 @@ export default function MetricsPage() {
     <div className="min-h-screen grid-pattern pb-7">
       <div className="scanlines">
         <Header />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-8 pt-20">
           <div className="space-y-6 mb-12">
-            <h1 className="font-mono text-4xl font-bold text-foreground">
+            <h1 className="font-sans text-4xl font-bold text-foreground">
               System Metrics
             </h1>
             <p className="text-muted-foreground max-w-2xl">
@@ -18,6 +19,7 @@ export default function MetricsPage() {
           </div>
           <MetricsGrid />
         </main>
+        <Footer />
       </div>
     </div>
   );

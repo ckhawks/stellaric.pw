@@ -89,10 +89,11 @@ export default function LinksPage() {
     <div className="min-h-screen grid-pattern pb-7">
       <div className="scanlines">
         <Header />
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 pt-20 pb-8">
           <div>
             <h1 className="text-4xl font-bold mb-2">
-              <span className="text-accent">&gt;</span> LINKS
+              {/* <span className="text-accent">&gt;</span> */}
+              Links
             </h1>
             <p className="text-muted-foreground">
               Connect with me and check out the links I actually use.

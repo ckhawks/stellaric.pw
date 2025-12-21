@@ -7,11 +7,12 @@ export default function AboutPage() {
     <div className="min-h-screen grid-pattern pb-7">
       <div className="scanlines">
         <Header />
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20">
           <div className="space-y-12">
             <div className="space-y-4">
               <h1 className="text-4xl font-bold">
-                <span className="text-accent">&gt;</span> ABOUT
+                {/* <span className="text-accent">&gt;</span> */}
+                About
               </h1>
             </div>
 

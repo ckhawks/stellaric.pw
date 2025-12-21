@@ -12,20 +12,18 @@ export function Footer() {
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex sm:flex-row flex-col items-center justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col justify-between gap-4">
-              <div className="text-sm text-muted-foreground">
-                <Image
-                  src="stellaric.svg"
-                  alt="Stellaric Logo"
-                  width={34}
-                  height={34}
-                  className="dark:invert border-none outline-none mb-4"
-                />
-                {/* <span className="text-accent">$</span> */}
-                Stellaric © {new Date().getFullYear()}
-              </div>
+        <div className="flex flex-row flex-col items-center justify-between gap-4">
+          <div className="flex flex-col gap-2 items-start">
+            <div className="flex flex-col text-sm text-muted-foreground items-start">
+              <Image
+                src="stellaric.svg"
+                alt="Stellaric Logo"
+                width={34}
+                height={34}
+                className="dark:invert border-none outline-none mb-4"
+              />
+              {/* <span className="text-accent">$</span> */}
+              <span>Stellaric © {new Date().getFullYear()}</span>
             </div>
 
             <div className="flex items-center gap-4 mt-4">

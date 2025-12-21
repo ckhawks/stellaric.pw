@@ -57,11 +57,12 @@ export default function BlogPage() {
     <div className="min-h-screen grid-pattern pb-7">
       <div className="scanlines">
         <Header />
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl font-bold">
-                <span className="text-accent">&gt;</span> BLOG
+                {/* <span className="text-accent">&gt;</span> */}
+                Blog
               </h1>
               <p className="text-muted-foreground">
                 Random thoughts and notes on things I'm working on.
@@ -71,7 +72,7 @@ export default function BlogPage() {
             <div className="space-y-6">
               {posts.map((post) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`}>
-                  <Card className="border-border bg-card hover:border-accent transition-colors group">
+                  <Card className="border-border bg-card hover:border-accent transition-colors group my-4">
                     <CardHeader>
                       <div className="flex items-start justify-between gap-4 mb-2">
                         <CardTitle className="text-xl group-hover:text-accent transition-colors">

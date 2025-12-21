@@ -58,11 +58,12 @@ export default function BroadcastsPage() {
     <div className="min-h-screen grid-pattern pb-7">
       <div className="scanlines">
         <Header />
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20">
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl font-bold">
-                <span className="text-accent">&gt;</span> BROADCAST_HISTORY
+                {/* <span className="text-accent">&gt;</span> */}
+                Broadcast History
               </h1>
               <p className="text-muted-foreground">
                 Event video production work - technical directing, replays,
@@ -88,7 +89,7 @@ export default function BroadcastsPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <div className="flex items-center gap-4 text-sm">
+                    <div className="flex items-center gap-4 text-sm flex-wrap">
                       <div className="flex items-center gap-2">
                         <span className="text-muted-foreground">ROLE:</span>
                         <span className="text-foreground">

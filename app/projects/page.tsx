@@ -85,11 +85,12 @@ export default function ProjectsPage() {
     <div className="min-h-screen grid-pattern pb-7">
       <div className="scanlines">
         <Header />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl font-bold">
-                <span className="text-accent">&gt;</span> ALL_PROJECTS
+                {/* <span className="text-accent">&gt;</span> */}
+                Projects
               </h1>
               <p className="text-muted-foreground">
                 A collection of things I've built across different domains.

@@ -7,7 +7,8 @@ export function MetricsBento() {
     <section className="space-y-8">
       <div className="flex items-end justify-between">
         <h2 className="text-3xl font-bold">
-          <span className="text-accent">&gt;</span> METRICS
+          {/* <span className="text-accent">&gt;</span> */}
+          Metrics
         </h2>
         {/* <Link
           href="/metrics"

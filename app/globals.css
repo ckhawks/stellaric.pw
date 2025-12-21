@@ -132,6 +132,16 @@
     scrollbar-gutter: stable;
   }
 
+  ::selection {
+    background-color: oklch(58.779% 0.23908 26.266);
+    color: oklch(0.98 0 0);
+  }
+
+  .dark ::selection {
+    background-color: oklch(54.174% 0.22021 26.03);
+    color: oklch(0.95 0 0);
+  }
+
   /* Different grid patterns for light/dark mode */
   /* Light mode: subtle dots instead of lines for better readability */
   .grid-pattern {
@@ -224,6 +234,43 @@
 
   .border-glow:hover::before {
     opacity: 1;
+  }
+
+  .header {
+    border-bottom: 1px solid #969696 !important;
+  }
+  .dark .header {
+    border-bottom: 1px solid #707070 !important;
+  }
+
+  .header::after {
+    content: "";
+    position: absolute;
+    /* top: calc(100% + 1px); */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 100%
+    );
+    backdrop-filter: blur(10px);
+    z-index: -1;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .dark .header::after {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      transparent 100%
+    );
   }
 }
 
