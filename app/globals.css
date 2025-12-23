@@ -59,7 +59,7 @@
   --accent-foreground: oklch(0.95 0 0);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.95 0 0);
-  --border: oklch(0.2 0 0); /* Subtle border */
+  --border: oklch(30.919% 0.00004 271.152); /* Subtle border */
   --input: oklch(0.15 0 0);
   --ring: oklch(0.55 0.22 25); /* Red focus ring */
   --chart-1: oklch(0.55 0.22 25); /* Red */
@@ -287,4 +287,43 @@
 
 .red-grid-animate {
   animation: redPulse 4s ease-in-out infinite;
+}
+
+/* Terminal typing animation */
+@keyframes terminalType {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes terminalBlink {
+  0%,
+  49% {
+    border-right-color: currentColor;
+  }
+  50%,
+  100% {
+    border-right-color: transparent;
+  }
+}
+
+.terminal-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: terminalType 2.5s steps(40, end) forwards;
+}
+
+.terminal-text.with-cursor {
+  border-right: 2px solid currentColor;
+  animation: terminalType 2.5s steps(40, end) forwards,
+    terminalBlink 1.5s step-end infinite;
+}
+
+.terminal-text.whitespace-normal {
+  display: inline;
+  white-space: normal;
 }

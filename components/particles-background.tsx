@@ -88,7 +88,7 @@ export function ParticlesBackground() {
           },
           distance: 208.44356791251798,
           enable: true,
-          opacity: theme === "dark" ? 0.2 : 0.2,
+          opacity: theme === "dark" ? 0.3 : 0.3,
           width: 1.3,
         },
         move: {

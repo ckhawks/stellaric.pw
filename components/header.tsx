@@ -41,7 +41,7 @@ export function Header() {
             className="flex items-center gap-2 text-foreground hover:text-accent transition-colors"
           >
             <Image
-              src="stellaric.svg"
+              src="/stellaric.svg"
               alt="Stellaric Logo"
               width={34}
               height={34}

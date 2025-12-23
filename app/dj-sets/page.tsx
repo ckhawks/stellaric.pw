@@ -92,7 +92,7 @@ export default function DJSetsPage() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <CardTitle className="text-xl mb-3 flex items-center gap-2">
-                      <Music className="w-5 h-5 text-accent" />
+                      {/* <Music className="w-5 h-5 text-accent" /> */}
                       {set.title}
                     </CardTitle>
 

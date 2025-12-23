@@ -1,6 +1,8 @@
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
 import { ProjectsSection } from "@/components/projects-section";
+import { CalloutLinks } from "@/components/callout-links";
+import { SitePages } from "@/components/site-pages";
 import { MetricsBento } from "@/components/metrics-bento";
 import { InterestsSection } from "@/components/interests-section";
 import { FeaturedWork } from "@/components/featured-work";
@@ -13,9 +15,12 @@ export default function Home() {
         <Header />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-7 space-y-24">
           <HeroSection />
-          <ProjectsSection />
           <MetricsBento />
-          <FeaturedWork />
+          <SitePages />
+          <CalloutLinks />
+          {/* <ProjectsSection /> */}
+
+          {/* <FeaturedWork /> */}
           {/* <InterestsSection /> */}
         </main>
         <Footer />

@@ -1,32 +1,31 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, Code, Zap, Database, ArrowRight } from "lucide-react";
+import { TerminalText } from "@/components/terminal-text";
 
 export function MetricsBento() {
   return (
     <section className="space-y-8">
       <div className="flex items-end justify-between">
-        <h2 className="text-3xl font-bold">
-          {/* <span className="text-accent">&gt;</span> */}
+        {/* <h2 className="text-3xl font-bold">
           Metrics
-        </h2>
+        </h2> */}
         {/* <Link
           href="/metrics"
           className="text-sm text-muted-foreground hover:text-accent transition-colors font-mono"
         >
           view_all →
         </Link> */}
-        <Link
+        {/* <Link
           href="/projects"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
         >
           View all
-          {/* <ExternalLink className="w-3 h-3" /> */}
           <ArrowRight className="w-4 h-4" />
-        </Link>
+        </Link> */}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="border-border bg-card hover-glow border-glow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -84,12 +83,19 @@ export function MetricsBento() {
             </p>
           </CardContent>
         </Card>
-      </div>
+      </div> */}
 
-      <Card className="border-border bg-card">
+      <Card className="border-border bg-card/2 backdrop-blur">
         <CardHeader>
-          <CardTitle className="text-sm font-medium text-muted-foreground">
-            ACTIVITY_TIMELINE
+          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center justify-between">
+            <span>ACTIVITY_TIMELINE</span>
+            <Link
+              href="/activity"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            >
+              View all
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -116,11 +122,19 @@ export function MetricsBento() {
                 type: "broadcast",
               },
             ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3 text-sm">
+              <div key={i} className="flex items-center gap-3 text-sm">
                 <div className="w-16 text-xs text-muted-foreground shrink-0">
                   {item.time}
                 </div>
-                <div className="flex-1">{item.action}</div>
+                <div className="flex-1">
+                  <TerminalText
+                    text={item.action}
+                    delay={i * 150}
+                    glitch={true}
+                    magic={true}
+                    className="whitespace-normal"
+                  />
+                </div>
                 <div className="text-xs px-2 py-0.5 bg-secondary border border-border shrink-0">
                   {item.type.toUpperCase()}
                 </div>

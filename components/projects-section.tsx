@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ExternalLink, GitBranch } from "lucide-react";
+import { ArrowRight, ExternalLink, GitBranch, Code2, Database, Box, Radio } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -9,7 +9,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const projects = [
+interface Project {
+  title: string;
+  description: string;
+  lastCommit: string;
+  tags: string[];
+  link: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const projects: Project[] = [
   {
     title: "Unity Mod Framework",
     description:
@@ -17,6 +26,7 @@ const projects = [
     lastCommit: "2 days ago",
     tags: ["C#", "Unity", "Modding"],
     link: "#",
+    icon: Code2,
   },
   {
     title: "Database Migration Tool",
@@ -25,6 +35,7 @@ const projects = [
     lastCommit: "1 week ago",
     tags: ["PostgreSQL", "TypeScript", "CLI"],
     link: "#",
+    icon: Database,
   },
   {
     title: "Low Poly Asset Pack",
@@ -33,6 +44,7 @@ const projects = [
     lastCommit: "3 weeks ago",
     tags: ["Blender", "3D", "Game Assets"],
     link: "#",
+    icon: Box,
   },
   {
     title: "vMix Control Interface",
@@ -41,6 +53,7 @@ const projects = [
     lastCommit: "5 days ago",
     tags: ["React", "WebSocket", "vMix"],
     link: "#",
+    icon: Radio,
   },
 ];
 
@@ -63,37 +76,43 @@ export function ProjectsSection() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {projects.map((project) => (
-          <Card
-            key={project.title}
-            className="border-border bg-card hover:border-accent transition-colors group"
-          >
-            <CardHeader>
-              <CardTitle className="text-lg group-hover:text-accent transition-colors">
-                {project.title}
-              </CardTitle>
-              <CardDescription className="text-muted-foreground text-sm">
-                {project.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="mt-auto">
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs px-2 py-1 bg-secondary border border-border"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </CardContent>
-            <CardFooter className="text-xs text-muted-foreground flex items-center gap-2">
-              <GitBranch className="w-3 h-3" />
-              <span>Last commit: {project.lastCommit}</span>
-            </CardFooter>
-          </Card>
-        ))}
+        {projects.map((project) => {
+          const Icon = project.icon;
+          return (
+            <Card
+              key={project.title}
+              className="border-border bg-card hover:border-accent hover:bg-accent/5 transition-all group"
+            >
+              <CardHeader>
+                <div className="flex items-start justify-between mb-2">
+                  <Icon className="w-6 h-6 text-accent group-hover:scale-110 transition-transform" />
+                </div>
+                <CardTitle className="text-lg group-hover:text-accent transition-colors">
+                  {project.title}
+                </CardTitle>
+                <CardDescription className="text-muted-foreground text-sm">
+                  {project.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="mt-auto">
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs px-2 py-1 bg-secondary border border-border"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </CardContent>
+              <CardFooter className="text-xs text-muted-foreground flex items-center gap-2">
+                <GitBranch className="w-3 h-3" />
+                <span>Last commit: {project.lastCommit}</span>
+              </CardFooter>
+            </Card>
+          );
+        })}
       </div>
     </section>
   );
