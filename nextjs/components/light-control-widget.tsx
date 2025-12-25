@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
+import { ColorPicker } from "@/components/color-picker";
 import { Lightbulb } from "lucide-react";
 import { toast } from "sonner";
 
@@ -42,10 +43,10 @@ export function LightControlWidget() {
       clearTimeout(debounceTimerRef.current);
     }
 
-    // Set new debounce timer - waits 300ms after user stops changing color
+    // Set new debounce timer - waits 600ms after user stops changing color
     debounceTimerRef.current = setTimeout(() => {
       sendColorToLight(color);
-    }, 300);
+    }, 600);
   };
 
   const sendColorToLight = async (color: string) => {
@@ -204,39 +205,15 @@ export function LightControlWidget() {
               </p>
             </div>
 
-            {/* Hex Input */}
-            <div>
-              <label className="text-xs text-muted-foreground block mb-2">
-                Enter Hex Color
-              </label>
-              <input
-                type="text"
-                value={inputColor}
-                onChange={handleHexInputChange}
-                onBlur={handleHexInputBlur}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    handleHexInputBlur();
-                  }
-                }}
-                maxLength={7}
-                className="w-full px-3 py-2 bg-background border border-border rounded text-foreground text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
-                placeholder="#FF0000"
-                disabled={isLoading}
-              />
-            </div>
-
-            {/* Visual Color Picker - Full width */}
+            {/* Custom Color Picker */}
             <div>
               <label className="text-xs text-muted-foreground block mb-3">
                 Choose Color
               </label>
-              <input
-                type="color"
+              <ColorPicker
                 value={inputColor}
-                onChange={(e) => handleColorChange(e.target.value)}
-                disabled={isLoading}
-                className="w-full h-16 cursor-pointer rounded border-2 border-border hover:border-accent transition-colors"
+                onChange={handleColorChange}
+                isLoading={isLoading}
               />
             </div>
 
@@ -253,35 +230,36 @@ export function LightControlWidget() {
           <div className="space-y-4">
             <div>
               <h4 className="font-mono text-sm font-semibold text-foreground mb-2">
-                HOW_IT_WORKS
+                INTERACT
               </h4>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Drag the color picker to find the perfect hue for your space.
-                The light updates automatically as you explore colors. Use the
-                hex input for precise color control.
+                Drag around the color wheel to explore millions of hues. Adjust the
+                brightness slider to find the perfect mood for the apartment. The
+                light responds in real-time as you select colors—watch the bulb
+                preview glow with your choice before it updates.
               </p>
             </div>
 
             <div className="pt-4 border-t border-border">
               <p className="text-xs text-muted-foreground">
-                <span className="font-mono text-accent">Light Status:</span>
+                <span className="font-mono text-accent">Connection:</span>
                 {isLoading ? (
                   <span className="ml-2 text-muted-foreground">Loading...</span>
                 ) : (
-                  <span className="ml-2 text-foreground">Connected</span>
+                  <span className="ml-2 text-foreground">Active</span>
                 )}
               </p>
             </div>
 
             <div className="pt-2 space-y-2">
               <p className="text-xs text-muted-foreground">
-                <span className="font-mono text-accent">Current:</span>
+                <span className="font-mono text-accent">Current Color:</span>
                 <span className="ml-2 text-foreground font-mono">
                   {currentColor}
                 </span>
               </p>
               <p className="text-xs text-muted-foreground">
-                <span className="font-mono text-accent">RGB:</span>
+                <span className="font-mono text-accent">RGB Value:</span>
                 <span className="ml-2 text-foreground font-mono">
                   rgb({hexToRgb(currentColor)})
                 </span>
