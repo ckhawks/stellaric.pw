@@ -1,6 +1,7 @@
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { MetricsGrid } from "@/components/metrics-grid";
+import { LightControlWidget } from "@/components/light-control-widget";
 
 export default function MetricsPage() {
   return (
@@ -18,6 +19,7 @@ export default function MetricsPage() {
             </p>
           </div>
           <MetricsGrid />
+          <LightControlWidget />
         </main>
         <Footer />
       </div>
