@@ -114,7 +114,7 @@ export function CalloutLinks() {
               rel={callout.external ? "noopener noreferrer" : undefined}
               className="group"
             >
-              <Card className="h-full border border-border backdrop-blur bg-gradient-to-br/2 from-card to-card/50 hover:from-accent/10 hover:to-card/80 hover:border-accent shadow-lg hover:shadow-xl hover:shadow-accent/20 transition-all duration-300 cursor-pointer overflow-hidden group/card">
+              <Card className="h-full border border-border backdrop-blur bg-gradient-to-br/2 from-card to-card/50 hover:from-accent/10 hover:to-card/80 hover:border-accent shadow-sm hover:shadow-xl hover:shadow-accent/20 transition-all duration-300 cursor-pointer overflow-hidden group/card">
                 {/* <div className="absolute inset-0 bg-gradient-to-br from-accent/0 via-transparent to-transparent group-hover/card:from-accent/10 transition-all duration-300" /> */}
                 <div className="relative p-6 flex flex-col h-full gap-4">
                   <div className="flex items-center justify-between">

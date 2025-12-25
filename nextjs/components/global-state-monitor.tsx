@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Activity,
   Database,
@@ -37,6 +37,8 @@ export function GlobalStateMonitor() {
   });
   const [currentMetric, setCurrentMetric] = useState(0);
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+  const footerRef = useRef<HTMLDivElement>(null);
 
   const rotatingMetrics = [
     {
@@ -50,6 +52,25 @@ export function GlobalStateMonitor() {
   ];
 
   useEffect(() => {
+    // Set up Intersection Observer to detect footer visibility
+    const observerOptions = {
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.target.tagName === "FOOTER") {
+          setFooterVisible(entry.isIntersecting);
+        }
+      });
+    }, observerOptions);
+
+    // Find and observe footer
+    const footer = document.querySelector("footer");
+    if (footer) {
+      observer.observe(footer);
+    }
+
     // Update time every second
     const updateTime = () => {
       const now = new Date();
@@ -103,6 +124,7 @@ export function GlobalStateMonitor() {
     }, 5000);
 
     return () => {
+      observer.disconnect();
       clearInterval(timeInterval);
       clearInterval(latencyInterval);
       clearInterval(cpuInterval);
@@ -115,7 +137,11 @@ export function GlobalStateMonitor() {
   const RotatingIcon = RotatingMetric.icon;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background backdrop-blur-sm backdrop-brightness-150">
+    <div
+      className={`fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background backdrop-blur-sm backdrop-brightness-150 ${
+        footerVisible ? "bottom-fade-hidden" : ""
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap text-xs font-mono overflow-x-auto flex-row sm:flex-row h-auto sm:h-8 sm:items-center xs:items-start sm:gap-4 gap-2 md:h-8 xs:h-auto py-2 sm:py-0 overflow-x-none">
           <div className="flex items-center gap-1.5 shrink-0">

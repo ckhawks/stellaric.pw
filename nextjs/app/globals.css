@@ -327,3 +327,39 @@
   display: inline;
   white-space: normal;
 }
+
+/* Bottom fade gradient - appears above status bar */
+[class*="fixed"][class*="bottom-0"]::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  pointer-events: none;
+  /* backdrop-filter: blur(10px); */
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+.dark [class*="fixed"][class*="bottom-0"]::before {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+}
+
+[class*="fixed"][class*="bottom-0"].bottom-fade-hidden::before {
+  opacity: 0;
+}
+
+/* we do this because the gradient looks kind of sick on the dark mode footer */
+.dark [class*="fixed"][class*="bottom-0"].bottom-fade-hidden::before {
+  opacity: 1;
+}
