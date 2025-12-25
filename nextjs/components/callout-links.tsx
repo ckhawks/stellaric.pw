@@ -15,6 +15,7 @@ import {
   Twitter,
   Youtube,
   ArrowRight,
+  HandHeart,
 } from "lucide-react";
 
 interface Callout {
@@ -93,6 +94,13 @@ const socialLinks = [
     color: "text-foreground",
     external: true,
   },
+  {
+    name: "Ko-Fi",
+    url: "https://ko-fi.com/stellaric",
+    icon: HandHeart,
+    color: "text-rose-500",
+    external: true,
+  },
 ];
 
 export function CalloutLinks() {
@@ -114,7 +122,7 @@ export function CalloutLinks() {
               rel={callout.external ? "noopener noreferrer" : undefined}
               className="group"
             >
-              <Card className="h-full border border-border backdrop-blur bg-gradient-to-br/2 from-card to-card/50 hover:from-accent/10 hover:to-card/80 hover:border-accent shadow-sm hover:shadow-xl hover:shadow-accent/20 transition-all duration-300 cursor-pointer overflow-hidden group/card">
+              <Card className="h-full border border-border bg-card md:bg-card/2 md:backdrop-blur hover:from-accent/10 hover:to-card/80 hover:border-accent shadow-sm hover:shadow-xl hover:shadow-accent/20 transition-all duration-300 cursor-pointer overflow-hidden group/card">
                 {/* <div className="absolute inset-0 bg-gradient-to-br from-accent/0 via-transparent to-transparent group-hover/card:from-accent/10 transition-all duration-300" /> */}
                 <div className="relative p-6 flex flex-col h-full gap-4">
                   <div className="flex items-center justify-between">
@@ -152,7 +160,7 @@ export function CalloutLinks() {
               ? {
                   onClick: () => setIsDiscordModalOpen(true),
                   className:
-                    "w-full text-left border-border bg-card/5 backdrop-blur hover:border-accent hover:shadow-xl hover:shadow-accent/20 cursor-pointer h-full transition-all",
+                    "w-full text-left border-border bg-card md:backdrop-blur hover:border-accent hover:shadow-xl hover:shadow-accent/20 cursor-pointer h-full transition-all",
                 }
               : {
                   href: link.url,
@@ -174,7 +182,7 @@ export function CalloutLinks() {
                       rel: "noopener noreferrer",
                     })}
               >
-                <Card className="border-border bg-card/5 backdrop-blur hover:border-accent hover:shadow-xl hover:shadow-accent/20 cursor-pointer h-full transition-all group/card">
+                <Card className="border-border bg-card md:bg-card/5 backdrop-blur hover:border-accent hover:shadow-xl hover:shadow-accent/20 cursor-pointer h-full transition-all group/card">
                   <CardHeader className="flex items-center gap-3">
                     <link.icon className={`w-6 h-6 ${link.color}`} />
                     <span>{link.name}</span>

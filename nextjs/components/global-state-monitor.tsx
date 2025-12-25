@@ -11,6 +11,7 @@ import {
   Thermometer,
   Wifi,
   HardDrive,
+  Gauge,
 } from "lucide-react";
 import {
   Popover,
@@ -32,6 +33,7 @@ export function GlobalStateMonitor() {
   const [latency, setLatency] = useState(0);
   const [mode] = useState("CREATIVE");
   const [cpuUsage, setCpuUsage] = useState(0);
+  const [fps, setFps] = useState(0);
   const [spotifyData, setSpotifyData] = useState<SpotifyData>({
     isPlaying: false,
   });
@@ -39,6 +41,7 @@ export function GlobalStateMonitor() {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
   const footerRef = useRef<HTMLDivElement>(null);
+  const fpsRef = useRef({ lastTime: performance.now(), frameCount: 0 });
 
   const rotatingMetrics = [
     {
@@ -123,6 +126,26 @@ export function GlobalStateMonitor() {
       setCurrentMetric((prev) => (prev + 1) % rotatingMetrics.length);
     }, 5000);
 
+    // Measure rendering FPS
+    let animationFrameId: number;
+    const measureFps = () => {
+      const now = performance.now();
+      const elapsed = now - fpsRef.current.lastTime;
+      fpsRef.current.frameCount++;
+
+      if (elapsed >= 200) {
+        const currentFps = Math.round(
+          (fpsRef.current.frameCount / elapsed) * 1000
+        );
+        setFps(currentFps);
+        fpsRef.current.lastTime = now;
+        fpsRef.current.frameCount = 0;
+      }
+
+      animationFrameId = requestAnimationFrame(measureFps);
+    };
+    animationFrameId = requestAnimationFrame(measureFps);
+
     return () => {
       observer.disconnect();
       clearInterval(timeInterval);
@@ -130,6 +153,7 @@ export function GlobalStateMonitor() {
       clearInterval(cpuInterval);
       clearInterval(spotifyInterval);
       clearInterval(rotateInterval);
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
@@ -165,6 +189,12 @@ export function GlobalStateMonitor() {
             <Cpu className="w-3 h-3 text-yellow-500" />
             <span className="text-muted-foreground hidden sm:inline">CPU:</span>
             <span className="text-foreground">{cpuUsage}%</span>
+          </div>
+
+          <div className="flex items-center gap-1.5 shrink-0">
+            <Gauge className="w-3 h-3 text-green-500" />
+            <span className="text-muted-foreground hidden sm:inline">FPS:</span>
+            <span className="text-foreground">{fps}</span>
           </div>
 
           <div className="flex items-center gap-1.5 shrink-0">

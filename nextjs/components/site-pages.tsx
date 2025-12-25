@@ -132,7 +132,7 @@ export function SitePages() {
               )}
               <Link
                 href={page.href}
-                className="group flex items-center gap-4 p-4 border border-border rounded-lg bg-card/2 backdrop-blur hover:-backdrop-blur hover:border-accent hover:bg-accent/5 transition-all"
+                className="group flex items-center gap-4 p-4 border border-border rounded-lg bg-card md:bg-card/2 md:backdrop-blur hover:-backdrop-blur hover:border-accent hover:bg-accent/5 transition-all"
               >
                   <Icon className="w-5 h-5 group-hover:text-accent flex-shrink-0 group-hover:scale-110 transition-transform" />
                   <div className="flex-1 min-w-0">

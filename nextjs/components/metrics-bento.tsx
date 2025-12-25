@@ -85,7 +85,7 @@ export function MetricsBento() {
         </Card>
       </div> */}
 
-      <Card className="border-border bg-card/2 backdrop-blur">
+      <Card className="border-border bg-card md:bg-card/2 md:backdrop-blur">
         <CardHeader>
           <CardTitle className="text-sm font-medium text-muted-foreground flex items-center justify-between">
             <span>ACTIVITY_TIMELINE</span>
