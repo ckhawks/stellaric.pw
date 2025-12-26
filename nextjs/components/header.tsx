@@ -17,7 +17,7 @@ export function Header() {
     { href: "/about", label: "About" },
     { href: "/projects", label: "Projects" },
     // { href: "/blog", label: "Blog" },
-    // { href: "/broadcasts", label: "Broadcasts" },
+    { href: "/broadcasts", label: "Broadcasts" },
     { href: "/dj-sets", label: "DJ Sets" },
     // { href: "/metrics", label: "Metrics" },
     // { href: "/gear", label: "Gear" },
