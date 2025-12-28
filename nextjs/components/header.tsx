@@ -20,10 +20,11 @@ export function Header() {
     { href: "/broadcasts", label: "Broadcasts" },
     { href: "/dj-sets", label: "DJ Sets" },
     // { href: "/metrics", label: "Metrics" },
-    // { href: "/gear", label: "Gear" },
+
     // { href: "/photography", label: "Photography" },
     // { href: "/links", label: "Links" },
     { href: "/3d-models", label: "3D" },
+    { href: "/gear", label: "Gear" },
   ];
 
   return (
