@@ -23,7 +23,7 @@ export function Header() {
     // { href: "/gear", label: "Gear" },
     // { href: "/photography", label: "Photography" },
     // { href: "/links", label: "Links" },
-    // { href: "/3d-models", label: "3D" },
+    { href: "/3d-models", label: "3D" },
   ];
 
   return (

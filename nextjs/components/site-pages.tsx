@@ -71,7 +71,7 @@ const pages: PageItem[] = [
   {
     category: "Reference & Tools",
     title: "Metrics",
-    description: "Statistics and analytics about my work",
+    description: "Statistics and analytics about the site and my life",
     href: "/metrics",
     icon: BarChart3,
   },
@@ -81,25 +81,22 @@ const pages: PageItem[] = [
     href: "/gear",
     icon: Cpu,
   },
-  {
-    title: "Links",
-    description: "Curated collection of resources and references",
-    href: "/links",
-    icon: Link2,
-  },
+  // {
+  //   title: "Links",
+  //   description: "Curated collection of resources and references",
+  //   href: "/links",
+  //   icon: Link2,
+  // },
 ];
 
 export function SitePages() {
   // Group pages by category to determine odd/even
-  const grouped = pages.reduce(
-    (acc, page) => {
-      const category = page.category || "uncategorized";
-      if (!acc[category]) acc[category] = [];
-      acc[category].push(page);
-      return acc;
-    },
-    {} as Record<string, PageItem[]>
-  );
+  const grouped = pages.reduce((acc, page) => {
+    const category = page.category || "uncategorized";
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(page);
+    return acc;
+  }, {} as Record<string, PageItem[]>);
 
   let currentCategory = "";
 
@@ -124,9 +121,7 @@ export function SitePages() {
           return (
             <Fragment key={page.href}>
               {showCategory && (
-                <h3
-                  className="sm:col-span-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-2 pl-1"
-                >
+                <h3 className="sm:col-span-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-2 pl-1">
                   {page.category}
                 </h3>
               )}
@@ -134,16 +129,16 @@ export function SitePages() {
                 href={page.href}
                 className="group flex items-center gap-4 p-4 border border-border rounded-lg bg-card md:bg-card/2 md:backdrop-blur hover:-backdrop-blur hover:border-accent hover:bg-accent/5 transition-all"
               >
-                  <Icon className="w-5 h-5 group-hover:text-accent flex-shrink-0 group-hover:scale-110 transition-transform" />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold group-hover:text-accent transition-colors">
-                      {page.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {page.description}
-                    </p>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors flex-shrink-0" />
+                <Icon className="w-5 h-5 group-hover:text-accent flex-shrink-0 group-hover:scale-110 transition-transform" />
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold group-hover:text-accent transition-colors">
+                    {page.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {page.description}
+                  </p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors flex-shrink-0" />
               </Link>
             </Fragment>
           );

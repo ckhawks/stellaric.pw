@@ -1,0 +1,96 @@
+{
+  "models": [
+    {
+      "id": "mp9",
+      "name": "MP9",
+      "category": "Weapons",
+      "polycount": "4.5K tris",
+      "description": "Low-poly MP9 submachine gun",
+      "thumbnail": "/models/mp9-thumb.png",
+      "file": "/models/mp9-2.glb",
+      "useMatcap": false
+    },
+    {
+      "id": "sr25-wip",
+      "name": "SR-25",
+      "category": "Weapons",
+      "polycount": "16.1K tris",
+      "description": "Modular SR-25 marksman rifle with customizable attachments. Untextured work in progress model.",
+      "thumbnail": "/models/sr25-thumb.png",
+      "file": "/models/sr25-wip.glb",
+      "useMatcap": true,
+      "work-in-progress": true
+    },
+    {
+      "id": "g3a3",
+      "name": "G3A3",
+      "category": "Weapons",
+      "polycount": "5.8K tris",
+      "description": "G3A3 rifle model with iron sights and magazine",
+      "thumbnail": "/models/g3a3-thumb.png",
+      "file": "/models/g3a3.glb",
+      "useMatcap": true
+    },
+    {
+      "id": "ak74",
+      "name": "AK-74",
+      "category": "Weapons",
+      "polycount": "7.7K tris",
+      "description": "AK-74 assault rifle with tactical furniture",
+      "thumbnail": "/models/ak74-thumb.png",
+      "file": "/models/ak74.glb",
+      "useMatcap": false
+    },
+    {
+      "id": "aceofspades",
+      "name": "Ace of Spades",
+      "category": "Weapons",
+      "polycount": "1.8K tris",
+      "description": "Recreation of the Ace of Spades weapon from Destiny 2",
+      "thumbnail": "/models/aceofspades-thumb.png",
+      "file": "/models/aceofspades.glb",
+      "useMatcap": true
+    },
+    {
+      "id": "negev",
+      "name": "Negev",
+      "category": "Weapons",
+      "polycount": "16.3K tris",
+      "description": "Negev light machine gun. Untextured work in progress model.",
+      "thumbnail": "/models/negev-thumb.png",
+      "file": "/models/negev.glb",
+      "useMatcap": true
+    },
+
+    {
+      "id": "ppsh41",
+      "name": "PPSh-41",
+      "category": "Weapons",
+      "polycount": "8.8K tris",
+      "description": "PPSh-41 submachine gun model",
+      "thumbnail": "/models/ppsh-thumb.png",
+      "file": "/models/ppsh.glb",
+      "useMatcap": false
+    },
+    {
+      "id": "skorpion-evo",
+      "name": "Skorpion EVO",
+      "category": "Weapons",
+      "polycount": "9.8K tris",
+      "description": "Skorpion EVO submachine gun. Untextured work in progress model.",
+      "thumbnail": "/models/skorpionevo-thumb.png",
+      "file": "/models/skorpion-evo.glb",
+      "useMatcap": true
+    },
+    {
+      "id": "ump45",
+      "name": "UMP45",
+      "category": "Weapons",
+      "polycount": "4.9K tris",
+      "description": "UMP45 submachine gun. Untextured work in progress model.",
+      "thumbnail": "/models/ump45-thumb.png",
+      "file": "/models/ump45.glb",
+      "useMatcap": true
+    }
+  ]
+}
