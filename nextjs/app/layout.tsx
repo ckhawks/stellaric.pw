@@ -45,6 +45,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          src="https://cdn.visitors.now/v.js"
+          data-token="05627124-2ad9-4809-859d-e2c71bd90c43"
+        ></script>
+      </head>
       <body
         className={`${inter.variable} ${geistMono.variable} antialiased font-sans`}
       >
