@@ -15,7 +15,7 @@ export default function Home() {
         <Header />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-7 space-y-24">
           <HeroSection />
-          <MetricsBento />
+          {/* <MetricsBento /> */}
           <SitePages />
           <CalloutLinks />
           {/* <ProjectsSection /> */}

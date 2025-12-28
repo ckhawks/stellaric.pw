@@ -21,9 +21,12 @@ export function Header() {
     { href: "/dj-sets", label: "DJ Sets" },
     // { href: "/metrics", label: "Metrics" },
 
+    { href: "https://photos.stlr.cx/", label: "Photos", external: true },
+
     // { href: "/photography", label: "Photography" },
     // { href: "/links", label: "Links" },
     { href: "/3d-models", label: "3D" },
+    { href: "/light", label: "Light" },
     { href: "/gear", label: "Gear" },
   ];
 
@@ -53,19 +56,31 @@ export function Header() {
           </Link>
 
           <nav className="hidden lg:flex items-center gap-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`font-sans text-[14px] transition-colors ${
-                  pathname === link.href
-                    ? "font-bold text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {link.label.toLocaleLowerCase()}
-              </Link>
-            ))}
+            {navLinks.map((link) =>
+              link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-[14px] transition-colors text-muted-foreground hover:text-foreground"
+                >
+                  {link.label.toLocaleLowerCase()}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`font-sans text-[14px] transition-colors ${
+                    pathname === link.href
+                      ? "font-bold text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label.toLocaleLowerCase()}
+                </Link>
+              )
+            )}
             <ThemeToggle />
           </nav>
 
@@ -86,20 +101,33 @@ export function Header() {
 
         {mobileMenuOpen && (
           <nav className="lg:hidden border-t border-border py-4 space-y-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block font-sans text-[15px] transition-colors py-2 ${
-                  pathname === link.href
-                    ? "font-bold text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {link.label.toLocaleLowerCase()}
-              </Link>
-            ))}
+            {navLinks.map((link) =>
+              link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block font-sans text-[15px] transition-colors py-2 text-muted-foreground hover:text-foreground"
+                >
+                  {link.label.toLocaleLowerCase()}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block font-sans text-[15px] transition-colors py-2 ${
+                    pathname === link.href
+                      ? "font-bold text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label.toLocaleLowerCase()}
+                </Link>
+              )
+            )}
           </nav>
         )}
       </div>

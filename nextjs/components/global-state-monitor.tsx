@@ -18,6 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import "@/styles/global-state-monitor.css";
 
 interface SpotifyData {
   isPlaying: boolean;
@@ -44,14 +45,14 @@ export function GlobalStateMonitor() {
   const fpsRef = useRef({ lastTime: performance.now(), frameCount: 0 });
 
   const rotatingMetrics = [
-    {
-      icon: Thermometer,
-      label: "TEMP",
-      value: "21.5°C",
-      color: "text-orange-500",
-    },
+    // {
+    //   icon: Thermometer,
+    //   label: "TEMP",
+    //   value: "21.5°C",
+    //   color: "text-orange-500",
+    // },
     { icon: Wifi, label: "NET", value: "847Mbps", color: "text-blue-500" },
-    { icon: HardDrive, label: "DISK", value: "52%", color: "text-purple-500" },
+    // { icon: HardDrive, label: "DISK", value: "52%", color: "text-purple-500" },
   ];
 
   useEffect(() => {
@@ -185,24 +186,34 @@ export function GlobalStateMonitor() {
             <span className="text-muted-foreground hidden sm:inline">MODE:</span>
             <span className="text-foreground">{mode}</span>
           </div> */}
-          <div className="flex items-center gap-1.5 shrink-0">
+          {/* <div className="flex items-center gap-1.5 shrink-0">
             <Cpu className="w-3 h-3 text-yellow-500" />
             <span className="text-muted-foreground hidden sm:inline">CPU:</span>
             <span className="text-foreground">{cpuUsage}%</span>
-          </div>
+          </div> */}
 
           <div className="flex items-center gap-1.5 shrink-0">
-            <Gauge className="w-3 h-3 text-green-500" />
+            <Gauge className="w-3 h-3 text-blue-500" />
             <span className="text-muted-foreground hidden sm:inline">FPS:</span>
             <span className="text-foreground">{fps}</span>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
+          {/* <div className="flex items-center gap-1.5 shrink-0">
             <RotatingIcon className={`w-3 h-3 ${RotatingMetric.color}`} />
             <span className="text-muted-foreground hidden sm:inline">
               {RotatingMetric.label}:
             </span>
             <span className="text-foreground">{RotatingMetric.value}</span>
+          </div> */}
+
+          <div className="flex items-center gap-1.5 shrink-0">
+            <Activity className="w-3 h-3 text-green-500" />
+            <span className="text-muted-foreground hidden sm:inline">
+              STATUS:
+            </span>
+            <span className="text-foreground">
+              CREATING<span className="blinking-cursor">_</span>
+            </span>
           </div>
 
           <div className="flex items-center gap-1.5 shrink-0 md:ml-auto ml-0 gap-2 md:gap-4 flex-row xs:gap-2 xs:items-start flex-wrap sm:flex-nowrap overflow-x-none">

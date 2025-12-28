@@ -12,6 +12,7 @@ import {
   Link2,
   BarChart3,
   User,
+  Lightbulb,
 } from "lucide-react";
 
 interface PageItem {
@@ -30,12 +31,12 @@ const pages: PageItem[] = [
     href: "/about",
     icon: User,
   },
-  {
-    title: "Activity",
-    description: "Writing on development, design, and creative work",
-    href: "/blog",
-    icon: BookOpen,
-  },
+  // {
+  //   title: "Activity",
+  //   description: "Writing on development, design, and creative work",
+  //   href: "/blog",
+  //   icon: BookOpen,
+  // },
   {
     category: "Creative Work",
     title: "Projects",
@@ -47,7 +48,7 @@ const pages: PageItem[] = [
   {
     title: "Photography",
     description: "Visual portfolio and photography work",
-    href: "/photography",
+    href: "https://photos.stlr.cx/",
     icon: Camera,
   },
   {
@@ -68,25 +69,26 @@ const pages: PageItem[] = [
     href: "/3d-models",
     icon: Box,
   },
+  // {
+  //   category: "Reference & Tools",
+  //   title: "Metrics",
+  //   description: "Statistics and analytics about the site and my life",
+  //   href: "/metrics",
+  //   icon: BarChart3,
+  // },
   {
     category: "Reference & Tools",
-    title: "Metrics",
-    description: "Statistics and analytics about the site and my life",
-    href: "/metrics",
-    icon: BarChart3,
-  },
-  {
     title: "Gear",
     description: "Equipment, tools, and setup details",
     href: "/gear",
     icon: Cpu,
   },
-  // {
-  //   title: "Links",
-  //   description: "Curated collection of resources and references",
-  //   href: "/links",
-  //   icon: Link2,
-  // },
+  {
+    title: "Light",
+    description: "Control a light in my apartment",
+    href: "/light",
+    icon: Lightbulb,
+  },
 ];
 
 export function SitePages() {
@@ -127,6 +129,7 @@ export function SitePages() {
               )}
               <Link
                 href={page.href}
+                target={page.href.includes("http") ? "_blank" : undefined}
                 className="group flex items-center gap-4 p-4 border border-border rounded-lg bg-card md:bg-card/2 md:backdrop-blur hover:-backdrop-blur hover:border-accent hover:bg-accent/5 transition-all"
               >
                 <Icon className="w-5 h-5 group-hover:text-accent flex-shrink-0 group-hover:scale-110 transition-transform" />
