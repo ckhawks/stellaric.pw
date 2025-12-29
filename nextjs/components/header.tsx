@@ -2,16 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Terminal, Menu, X } from "lucide-react";
+import { Terminal, Menu, X, MessageCircle } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useState } from "react";
 import { Avatar } from "./ui/avatar";
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { useChatContext } from "@/context/chat-context";
 import headerStyles from "./header.module.css";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { isChatOpen, setIsChatOpen, unreadCount } = useChatContext();
 
   const navLinks = [
     { href: "/about", label: "About" },
@@ -82,10 +85,50 @@ export function Header() {
               )
             )}
             <ThemeToggle />
+            <div className="relative">
+              <Button
+                onClick={() => setIsChatOpen(!isChatOpen)}
+                variant="ghost"
+                size="sm"
+                className={`h-9 px-2 transition-colors cursor-pointer ${
+                  isChatOpen
+                    ? "bg-accent/20 text-accent"
+                    : "text-foreground hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white"
+                }`}
+                title="Toggle chat"
+              >
+                <MessageCircle className="w-4 h-4" />
+              </Button>
+              {!isChatOpen && unreadCount > 0 && (
+                <div className="absolute -top-1 -right-1 h-4 w-4 bg-background text-accent rounded-full flex items-center justify-center text-[10px] font-bold border border-accent">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </div>
+              )}
+            </div>
           </nav>
 
-          <div className="flex items-center gap-4 lg:hidden">
+          <div className="flex items-center gap-4 lg:hidden ">
             <ThemeToggle />
+            <div className="relative">
+              <Button
+                onClick={() => setIsChatOpen(!isChatOpen)}
+                variant="ghost"
+                size="sm"
+                className={`h-9 px-2 transition-colors cursor-pointer ${
+                  isChatOpen
+                    ? "bg-accent/20 text-accent"
+                    : "text-foreground hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white"
+                }`}
+                title="Toggle chat"
+              >
+                <MessageCircle className="w-4 h-4" />
+              </Button>
+              {!isChatOpen && unreadCount > 0 && (
+                <div className="absolute -top-1 -right-1 h-4 w-4 bg-background text-accent rounded-full flex items-center justify-center text-[10px] font-bold border border-accent">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </div>
+              )}
+            </div>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-foreground hover:text-accent transition-colors"

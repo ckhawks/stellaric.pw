@@ -13,3 +13,20 @@ export interface Broadcast {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface ChatMessage {
+  id: number;
+  anonymous_user_id: string;
+  pseudonym: string;
+  message: string;
+  timestamp: Date;
+  ip_hash?: string;
+}
+
+export interface ChatMessageDTO {
+  id: number;
+  anonymous_user_id: string;
+  pseudonym: string;
+  message: string;
+  timestamp: string;
+}

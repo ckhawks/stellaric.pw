@@ -4,6 +4,8 @@ import { Inter, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { GlobalStateMonitor } from "@/components/global-state-monitor";
+import { ChatProvider } from "@/context/chat-context";
+import { FloatingChat } from "@/components/floating-chat";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -60,9 +62,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <GlobalStateMonitor />
-          <Analytics />
+          <ChatProvider>
+            {children}
+            <FloatingChat />
+            <GlobalStateMonitor />
+            <Analytics />
+          </ChatProvider>
         </ThemeProvider>
       </body>
     </html>
