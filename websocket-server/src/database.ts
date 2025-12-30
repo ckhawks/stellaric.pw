@@ -143,20 +143,34 @@ export async function getClickCount(): Promise<bigint> {
 }
 
 export async function canClickIP(ipHash: string): Promise<boolean> {
-  const result = await query(
-    `INSERT INTO click_ips (ip_hash, last_click_time) VALUES ($1, NOW())
-     ON CONFLICT (ip_hash) DO UPDATE
-     SET last_click_time = CASE
-       WHEN NOW() - click_ips.last_click_time >= INTERVAL '2 seconds' THEN NOW()
-       ELSE click_ips.last_click_time
-     END
-     RETURNING last_click_time, (NOW() - last_click_time >= INTERVAL '2 seconds')::boolean as can_click`,
+  // First, check if IP exists and if enough time has passed
+  const checkResult = await query(
+    `SELECT last_click_time FROM click_ips WHERE ip_hash = $1`,
     [ipHash]
   );
 
-  if (!result.rows[0]) {
-    return true; // First click
+  // If IP doesn't exist, allow the click (first time)
+  if (!checkResult.rows[0]) {
+    await query(
+      `INSERT INTO click_ips (ip_hash, last_click_time) VALUES ($1, NOW())`,
+      [ipHash]
+    );
+    return true;
   }
 
-  return result.rows[0].can_click === true;
+  // Check if enough time has passed
+  const lastClickTime = new Date(checkResult.rows[0].last_click_time).getTime();
+  const now = Date.now();
+  const secondsSinceLastClick = (now - lastClickTime) / 1000;
+
+  if (secondsSinceLastClick >= 2) {
+    // Update the last click time
+    await query(
+      `UPDATE click_ips SET last_click_time = NOW() WHERE ip_hash = $1`,
+      [ipHash]
+    );
+    return true;
+  }
+
+  return false;
 }
