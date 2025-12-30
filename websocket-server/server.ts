@@ -54,6 +54,13 @@ wss.on("connection", (ws: WebSocket, req: http.IncomingMessage) => {
   };
   ws.send(JSON.stringify(connectionMessage));
 
+  // Setup keepalive ping every 30 seconds
+  const pingInterval = setInterval(() => {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.ping();
+    }
+  }, 30000);
+
   // Handle incoming messages
   ws.on("message", async (data: Buffer) => {
     try {
@@ -127,7 +134,7 @@ wss.on("connection", (ws: WebSocket, req: http.IncomingMessage) => {
             ws.send(
               JSON.stringify({
                 type: "error",
-                error: "Rate limited. You can click once per second.",
+                error: "Rate limited. You can click once every 2 seconds.",
               })
             );
             return;
@@ -165,6 +172,7 @@ wss.on("connection", (ws: WebSocket, req: http.IncomingMessage) => {
 
   // Handle client disconnect
   ws.on("close", () => {
+    clearInterval(pingInterval);
     connectedClients.delete(ws);
     messageHandler.getConnectionLimiter().recordDisconnect(ipHash);
     console.log(`Client disconnected from ${ipHash.substring(0, 8)}... (${connectedClients.size} remaining)`);
