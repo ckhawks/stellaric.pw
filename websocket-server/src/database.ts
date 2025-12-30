@@ -107,3 +107,56 @@ export async function testConnection(): Promise<boolean> {
     return false;
   }
 }
+
+export async function incrementClickCounter(): Promise<bigint> {
+  const result = await query(
+    `INSERT INTO click_counter (id, total_clicks) VALUES (1, 1)
+     ON CONFLICT (id) DO UPDATE SET total_clicks = click_counter.total_clicks + 1
+     RETURNING total_clicks`,
+    []
+  );
+
+  if (!result.rows[0]) {
+    throw new Error("Failed to increment click counter");
+  }
+
+  return BigInt(result.rows[0].total_clicks);
+}
+
+export async function getClickCount(): Promise<bigint> {
+  const result = await query(
+    `SELECT total_clicks FROM click_counter WHERE id = 1`,
+    []
+  );
+
+  if (!result.rows[0]) {
+    // Initialize if not exists
+    await query(
+      `INSERT INTO click_counter (id, total_clicks) VALUES (1, 0)
+       ON CONFLICT (id) DO NOTHING`,
+      []
+    );
+    return 0n;
+  }
+
+  return BigInt(result.rows[0].total_clicks);
+}
+
+export async function canClickIP(ipHash: string): Promise<boolean> {
+  const result = await query(
+    `INSERT INTO click_ips (ip_hash, last_click_time) VALUES ($1, NOW())
+     ON CONFLICT (ip_hash) DO UPDATE
+     SET last_click_time = CASE
+       WHEN NOW() - click_ips.last_click_time >= INTERVAL '2 seconds' THEN NOW()
+       ELSE click_ips.last_click_time
+     END
+     RETURNING last_click_time, (NOW() - last_click_time >= INTERVAL '2 seconds')::boolean as can_click`,
+    [ipHash]
+  );
+
+  if (!result.rows[0]) {
+    return true; // First click
+  }
+
+  return result.rows[0].can_click === true;
+}

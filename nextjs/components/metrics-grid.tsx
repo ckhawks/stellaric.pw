@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useChatContext } from "@/context/chat-context";
 import {
   Activity,
   Clock,
@@ -13,6 +15,7 @@ import {
   Thermometer,
   Wifi,
   Server,
+  Zap,
 } from "lucide-react";
 import {
   LineChart,
@@ -32,12 +35,55 @@ const generateMockData = (points: number, min: number, max: number) => {
 };
 
 export function MetricsGrid() {
+  const { isConnected, sendClick, onClickUpdate, offClickUpdate } = useChatContext();
   const [secondsAlive, setSecondsAlive] = useState(0);
   const [mouseClicks, setMouseClicks] = useState(0);
   const [keystrokes, setKeystrokes] = useState(0);
+  const [clickCount, setClickCount] = useState(0n);
+  const [isClickLoading, setIsClickLoading] = useState(false);
+  const [clickError, setClickError] = useState<string | null>(null);
+  const [clickCooldown, setClickCooldown] = useState(0); // Cooldown timer in seconds
   const [cpuData] = useState(generateMockData(20, 20, 80));
   const [tempData] = useState(generateMockData(24, 18, 24));
+  const cooldownIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Fetch initial click count
+  useEffect(() => {
+    const fetchClickCount = async () => {
+      try {
+        const response = await fetch("/api/clicks");
+        const data = await response.json();
+        setClickCount(BigInt(data.total_clicks));
+      } catch (error) {
+        console.error("Error fetching click count:", error);
+        setClickError("Failed to load click count");
+      }
+    };
+
+    fetchClickCount();
+  }, []);
+
+  // Setup click update listener
+  useEffect(() => {
+    if (!onClickUpdate || !offClickUpdate) return;
+
+    const handleClickUpdate = (data: any) => {
+      if (data.error) {
+        setClickError(data.error);
+      } else {
+        setClickCount(BigInt(data.total_clicks));
+        setClickError(null);
+      }
+    };
+
+    onClickUpdate(handleClickUpdate);
+
+    return () => {
+      offClickUpdate(handleClickUpdate);
+    };
+  }, [onClickUpdate, offClickUpdate]);
+
+  // Calculate seconds alive and track events
   useEffect(() => {
     // Calculate seconds alive (example birthdate)
     const birthDate = new Date("2000-03-20").getTime();
@@ -62,6 +108,58 @@ export function MetricsGrid() {
       window.removeEventListener("keydown", handleKeydown);
     };
   }, []);
+
+  // Cleanup cooldown interval on unmount
+  useEffect(() => {
+    return () => {
+      if (cooldownIntervalRef.current) {
+        clearInterval(cooldownIntervalRef.current);
+      }
+    };
+  }, []);
+
+  const startCooldown = () => {
+    setClickCooldown(2); // 2 second cooldown
+    if (cooldownIntervalRef.current) {
+      clearInterval(cooldownIntervalRef.current);
+    }
+    cooldownIntervalRef.current = setInterval(() => {
+      setClickCooldown((prev) => {
+        if (prev <= 1) {
+          if (cooldownIntervalRef.current) {
+            clearInterval(cooldownIntervalRef.current);
+          }
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  const handleClickButtonClick = async () => {
+    if (!isConnected) {
+      setClickError("WebSocket not connected");
+      return;
+    }
+
+    if (clickCooldown > 0) {
+      return; // Ignore clicks during cooldown
+    }
+
+    setIsClickLoading(true);
+    startCooldown();
+    try {
+      sendClick();
+      // Keep loading state briefly to show error if rate limited
+      setTimeout(() => {
+        setIsClickLoading(false);
+      }, 100);
+    } catch (error) {
+      console.error("Error sending click:", error);
+      setClickError("Failed to send click");
+      setIsClickLoading(false);
+    }
+  };
 
   const metrics = [
     {
@@ -126,6 +224,16 @@ export function MetricsGrid() {
       icon: HardDrive,
       description: "NAS storage capacity",
     },
+    {
+      title: "TOTAL_CLICKS",
+      value: clickCount.toString(),
+      icon: Zap,
+      description: "Cumulative clicks from all users",
+      isClickable: true,
+      isLoading: isClickLoading,
+      error: clickError,
+      cooldown: clickCooldown,
+    },
   ];
 
   return (
@@ -151,6 +259,11 @@ export function MetricsGrid() {
             <div className="text-xs text-muted-foreground mb-4">
               {metric.description}
             </div>
+            {metric.error && (
+              <div className="text-xs text-red-500 mb-4">
+                {metric.error}
+              </div>
+            )}
             {metric.chart && (
               <div className="h-16 -mx-2">
                 <ResponsiveContainer width="100%" height="100%">
@@ -175,6 +288,20 @@ export function MetricsGrid() {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
+            )}
+            {metric.isClickable && (
+              <Button
+                onClick={handleClickButtonClick}
+                disabled={metric.isLoading || metric.cooldown > 0}
+                className="w-full mt-4"
+                variant="outline"
+              >
+                {metric.cooldown > 0
+                  ? `Wait ${metric.cooldown}s`
+                  : metric.isLoading
+                    ? "Clicking..."
+                    : "Click!"}
+              </Button>
             )}
           </Card>
         );

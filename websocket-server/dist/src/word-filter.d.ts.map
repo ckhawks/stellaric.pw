@@ -1,1 +1,0 @@
-{"version":3,"file":"word-filter.d.ts","sourceRoot":"","sources":["../../src/word-filter.ts"],"names":[],"mappings":"AAAA,qBAAa,UAAU;IACrB,OAAO,CAAC,SAAS,CAGf;gBAEU,eAAe,CAAC,EAAE,MAAM,EAAE;IAMtC,mBAAmB,CAAC,OAAO,EAAE,MAAM,GAAG,OAAO;IAY7C,OAAO,CAAC,IAAI,EAAE,MAAM,GAAG,IAAI;IAM3B,UAAU,CAAC,IAAI,EAAE,MAAM,GAAG,IAAI;IAK9B,YAAY,IAAI,MAAM,EAAE;CAGzB"}

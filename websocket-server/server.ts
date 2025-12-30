@@ -6,7 +6,7 @@ import { RedisClient } from "./src/redis";
 import { MessageHandler } from "./src/message-handler";
 import { ConnectionMetadata, ClientMessage, WSMessage } from "./src/types";
 import { getClientIP, hashIP } from "./src/utils";
-import { testConnection } from "./src/database";
+import { testConnection, incrementClickCounter, canClickIP } from "./src/database";
 
 const app: Express = express();
 const PORT = parseInt(process.env.PORT || "8080", 10);
@@ -118,6 +118,39 @@ wss.on("connection", (ws: WebSocket, req: http.IncomingMessage) => {
           );
         }
         // Success response sent via Redis pub/sub broadcast
+      } else if (clientMessage.type === "click") {
+        // Handle click counter increments
+        try {
+          const canClick = await canClickIP(ipHash);
+
+          if (!canClick) {
+            ws.send(
+              JSON.stringify({
+                type: "error",
+                error: "Rate limited. You can click once per second.",
+              })
+            );
+            return;
+          }
+
+          const newCount = await incrementClickCounter();
+
+          // Broadcast new click count to all clients
+          await redisClient.publishClick({
+            total_clicks: newCount.toString(),
+            timestamp: new Date().toISOString(),
+          });
+
+          console.log(`Click recorded from ${ipHash.substring(0, 8)}..., new total: ${newCount}`);
+        } catch (error) {
+          console.error("Error handling click:", error);
+          ws.send(
+            JSON.stringify({
+              type: "error",
+              error: "Failed to process click",
+            })
+          );
+        }
       }
     } catch (error) {
       console.error("Error processing WebSocket message:", error);
@@ -161,6 +194,25 @@ function setupRedisBroadcast() {
     });
 
     console.log(`Broadcasted message to ${wss.clients.size} clients`);
+  });
+
+  // Subscribe to click updates
+  redisClient.subscribeToClicks((clickData) => {
+    const broadcastMessage: WSMessage = {
+      type: "click_update",
+      payload: clickData,
+    };
+
+    const messageString = JSON.stringify(broadcastMessage);
+
+    // Send to all connected clients
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(messageString);
+      }
+    });
+
+    console.log(`Broadcasted click update to ${wss.clients.size} clients`);
   });
 }
 

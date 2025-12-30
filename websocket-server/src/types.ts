@@ -7,13 +7,13 @@ export interface ChatMessage {
 }
 
 export interface WSMessage {
-  type: "message" | "history" | "error" | "connection";
+  type: "message" | "history" | "error" | "connection" | "click_update";
   payload?: any;
   error?: string;
 }
 
 export interface ClientMessage {
-  type: "send_message" | "request_history";
+  type: "send_message" | "request_history" | "click";
   payload: {
     userId?: string;
     message?: string;

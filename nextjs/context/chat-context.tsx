@@ -24,6 +24,9 @@ interface ChatContextType {
   handleSendMessage: () => void;
   playMessageSound: () => void;
   unreadCount: number;
+  sendClick: () => void;
+  onClickUpdate?: (callback: (clickData: any) => void) => void;
+  offClickUpdate?: (callback: (clickData: any) => void) => void;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -52,6 +55,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const reconnectAttempts = useRef(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lastMessageIdRef = useRef<number>(0);
+  const clickUpdateListeners = useRef<((data: any) => void)[]>([]);
 
   // Update current time for relative timestamps
   useEffect(() => {
@@ -144,6 +148,16 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
               setMessages((prev) => [...prev, data.payload]);
             } else if (data.type === "error") {
               console.error("Chat error:", data.error);
+              // If it's a click-related error, broadcast to click listeners
+              if (data.error && typeof data.error === "string" &&
+                  (data.error.includes("Rate limited") || data.error.includes("click"))) {
+                clickUpdateListeners.current.forEach((callback) =>
+                  callback({ error: data.error })
+                );
+              }
+            } else if (data.type === "click_update") {
+              // Broadcast to any listeners (like metrics component)
+              clickUpdateListeners.current.forEach((callback) => callback(data.payload));
             }
           } catch (error) {
             console.error("Error parsing WebSocket message:", error);
@@ -247,6 +261,30 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const sendClick = () => {
+    if (!wsRef.current || !isConnected) return;
+
+    try {
+      wsRef.current.send(
+        JSON.stringify({
+          type: "click",
+        })
+      );
+    } catch (error) {
+      console.error("Error sending click:", error);
+    }
+  };
+
+  const onClickUpdate = (callback: (data: any) => void) => {
+    clickUpdateListeners.current.push(callback);
+  };
+
+  const offClickUpdate = (callback: (data: any) => void) => {
+    clickUpdateListeners.current = clickUpdateListeners.current.filter(
+      (cb) => cb !== callback
+    );
+  };
+
   // Initialize audio element
   useEffect(() => {
     if (typeof window !== "undefined" && !audioRef.current) {
@@ -270,6 +308,9 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     handleSendMessage,
     playMessageSound,
     unreadCount,
+    sendClick,
+    onClickUpdate,
+    offClickUpdate,
   };
 
   return (

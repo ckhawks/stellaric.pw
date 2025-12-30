@@ -37,3 +37,17 @@ CREATE TABLE IF NOT EXISTS chat_messages (
 
 CREATE INDEX IF NOT EXISTS idx_chat_messages_timestamp ON chat_messages(timestamp DESC);
 CREATE INDEX IF NOT EXISTS idx_chat_messages_ip_hash ON chat_messages(ip_hash, timestamp DESC);
+
+-- Click counter table for the auto-clicker button
+CREATE TABLE IF NOT EXISTS click_counter (
+  id SERIAL PRIMARY KEY,
+  total_clicks BIGINT NOT NULL DEFAULT 0,
+  updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+);
+
+-- Track last click time per IP for rate limiting (1 click per second)
+CREATE TABLE IF NOT EXISTS click_ips (
+  ip_hash VARCHAR(64) NOT NULL UNIQUE PRIMARY KEY,
+  last_click_time TIMESTAMP NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW() NOT NULL
+);

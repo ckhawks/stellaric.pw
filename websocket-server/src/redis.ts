@@ -5,6 +5,7 @@ export class RedisClient {
   private subscriber: Redis;
   private readonly KEY_PREFIX = "stellaricpw_chat:";
   private readonly CHANNEL = "stellaricpw_chat:messages";
+  private readonly CLICKS_CHANNEL = "stellaricpw_chat:clicks";
 
   constructor() {
     const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
@@ -42,11 +43,44 @@ export class RedisClient {
     });
 
     this.subscriber.on("message", (channel, data) => {
-      try {
-        const message = JSON.parse(data);
-        callback(message);
-      } catch (error) {
-        console.error("Error parsing Redis message:", error);
+      if (channel === this.CHANNEL) {
+        try {
+          const message = JSON.parse(data);
+          callback(message);
+        } catch (error) {
+          console.error("Error parsing Redis message:", error);
+        }
+      }
+    });
+  }
+
+  async publishClick(data: any): Promise<void> {
+    try {
+      await this.publisher.publish(this.CLICKS_CHANNEL, JSON.stringify(data));
+    } catch (error) {
+      console.error("Error publishing click to Redis:", error);
+    }
+  }
+
+  subscribeToClicks(
+    callback: (data: any) => void,
+    errorCallback?: (error: Error) => void
+  ): void {
+    this.subscriber.subscribe(this.CLICKS_CHANNEL, (err) => {
+      if (err) {
+        console.error("Error subscribing to clicks channel:", err);
+        if (errorCallback) errorCallback(err);
+      }
+    });
+
+    this.subscriber.on("message", (channel, data) => {
+      if (channel === this.CLICKS_CHANNEL) {
+        try {
+          const clickData = JSON.parse(data);
+          callback(clickData);
+        } catch (error) {
+          console.error("Error parsing click data:", error);
+        }
       }
     });
   }
