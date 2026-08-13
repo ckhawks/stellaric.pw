@@ -121,7 +121,7 @@ const puckMods = [
     title: "ToasterConnectWhileFull",
     description: "Enable server admins to connect to full dedicated servers",
     github: "https://github.com/ckhawks/ToasterConnectWhileFull",
-    type: "Client",
+    type: "Server",
   },
   {
     title: "ToasterFasterStickSpeed",
