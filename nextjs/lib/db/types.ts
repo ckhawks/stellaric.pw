@@ -30,3 +30,14 @@ export interface ChatMessageDTO {
   message: string;
   timestamp: string;
 }
+
+export interface LightChange {
+  id: number;
+  name: string;
+  message: string | null;
+  color: string;
+  brightness: number | null;
+  ip_hash: string | null;
+  user_agent: string | null;
+  created_at: Date;
+}

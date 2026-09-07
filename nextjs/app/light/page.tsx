@@ -13,7 +13,7 @@ export default function LightPage() {
               Light Control
             </h1>
             <p className="text-muted-foreground max-w-2xl">
-              Control my apartment lighting with real-time color adjustments.
+              Control my apartment lighting with real-time color adjustments. Leave your name so I know who did it.
             </p>
           </div>
           <LightControlWidget />

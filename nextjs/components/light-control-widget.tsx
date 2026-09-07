@@ -1,17 +1,25 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { ColorPicker } from "@/components/color-picker";
 import { Lightbulb } from "lucide-react";
 import { toast } from "sonner";
 
+const NAME_MAX_LENGTH = 40;
+const MESSAGE_MAX_LENGTH = 280;
+const NAME_STORAGE_KEY = "light-control-name";
+
 export function LightControlWidget() {
   const [currentColor, setCurrentColor] = useState<string>("#FF0000");
   const [inputColor, setInputColor] = useState<string>("#FF0000");
+  const [name, setName] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch current light color on mount
   useEffect(() => {
@@ -35,21 +43,26 @@ export function LightControlWidget() {
     fetchLightColor();
   }, []);
 
-  const handleColorChange = (color: string) => {
-    setInputColor(color);
+  // Remember the name so repeat visitors don't retype it
+  useEffect(() => {
+    const saved = window.localStorage.getItem(NAME_STORAGE_KEY);
+    if (saved) {
+      setName(saved);
+    }
+  }, []);
 
-    // Clear existing debounce timer
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
+  const trimmedName = name.trim();
+  const hasChangedColor = inputColor !== currentColor;
+  const canSubmit = !isLoading && !isSending && trimmedName.length > 0;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!trimmedName) {
+      toast.error("Please leave a name");
+      return;
     }
 
-    // Set new debounce timer - waits 600ms after user stops changing color
-    debounceTimerRef.current = setTimeout(() => {
-      sendColorToLight(color);
-    }, 600);
-  };
-
-  const sendColorToLight = async (color: string) => {
     setIsSending(true);
     try {
       const response = await fetch("/api/hue/light", {
@@ -57,46 +70,30 @@ export function LightControlWidget() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ color }),
+        body: JSON.stringify({
+          color: inputColor,
+          name: trimmedName,
+          message: message.trim() || undefined,
+        }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to update light");
+        throw new Error(data.error || "Failed to update light");
       }
 
-      const data = await response.json();
-      setCurrentColor(data.color || color);
+      window.localStorage.setItem(NAME_STORAGE_KEY, trimmedName);
+      setCurrentColor(data.color || inputColor);
+      setMessage("");
+      toast.success("Light updated - thanks for signing it");
     } catch (error) {
       console.error("Error updating light:", error);
-      toast.error("Failed to update light color");
-      // Reset to previous color on error
-      setInputColor(currentColor);
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update light color"
+      );
     } finally {
       setIsSending(false);
-    }
-  };
-
-  const handleHexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-    // Ensure it starts with # and is a valid hex color
-    if (!value.startsWith("#")) {
-      value = "#" + value;
-    }
-    value = value.toUpperCase().slice(0, 7);
-    setInputColor(value);
-  };
-
-  const handleHexInputBlur = () => {
-    // Validate hex color format
-    if (/^#[0-9A-F]{6}$/.test(inputColor)) {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-      sendColorToLight(inputColor);
-    } else {
-      // Reset to current color if invalid
-      setInputColor(currentColor);
-      toast.error("Invalid color format");
     }
   };
 
@@ -116,158 +113,197 @@ export function LightControlWidget() {
         Control my light in my apartment!
       </h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Color Picker Card */}
-        <Card className="p-6 border-border bg-card">
-          <div className="flex items-center gap-3 mb-6">
-            <Lightbulb className="w-5 h-5 text-accent" />
-            <h3 className="font-mono text-sm font-semibold text-foreground">
-              COLOR_CONTROL
-            </h3>
-          </div>
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Color Picker Card */}
+          <Card className="p-6 border-border bg-card">
+            <div className="flex items-center gap-3 mb-6">
+              <Lightbulb className="w-5 h-5 text-accent" />
+              <h3 className="font-mono text-sm font-semibold text-foreground">
+                COLOR_CONTROL
+              </h3>
+            </div>
 
-          <div className="space-y-6">
-            {/* Light Bulb Visualization */}
-            <div className="flex flex-col items-center justify-center py-8">
-              <div className="relative">
-                {/* Glow effect - the "light" from the bulb */}
-                <div
-                  className="absolute inset-0 rounded-full blur-3xl opacity-60 transition-colors duration-300"
-                  style={{
-                    backgroundColor: inputColor,
-                    width: "200px",
-                    height: "200px",
-                    marginLeft: "-50px",
-                    marginTop: "-50px",
-                  }}
-                />
-
-                {/* Light bulb SVG */}
-                <svg
-                  width="100"
-                  height="140"
-                  viewBox="0 0 100 140"
-                  className="relative z-10"
-                >
-                  {/* Bulb */}
-                  <circle cx="50" cy="45" r="35" fill={inputColor} />
-
-                  {/* Highlight on bulb for depth */}
-                  <ellipse
-                    cx="38"
-                    cy="30"
-                    rx="12"
-                    ry="15"
-                    fill="white"
-                    opacity="0.3"
+            <div className="space-y-6">
+              {/* Light Bulb Visualization */}
+              <div className="flex flex-col items-center justify-center py-8">
+                <div className="relative">
+                  {/* Glow effect - the "light" from the bulb */}
+                  <div
+                    className="absolute inset-0 rounded-full blur-3xl opacity-60 transition-colors duration-300"
+                    style={{
+                      backgroundColor: inputColor,
+                      width: "200px",
+                      height: "200px",
+                      marginLeft: "-50px",
+                      marginTop: "-50px",
+                    }}
                   />
 
-                  {/* Base of bulb */}
-                  <rect
-                    x="42"
-                    y="75"
-                    width="16"
-                    height="12"
-                    rx="2"
-                    fill="currentColor"
-                    className="text-foreground"
-                  />
+                  {/* Light bulb SVG */}
+                  <svg
+                    width="100"
+                    height="140"
+                    viewBox="0 0 100 140"
+                    className="relative z-10"
+                  >
+                    {/* Bulb */}
+                    <circle cx="50" cy="45" r="35" fill={inputColor} />
 
-                  {/* Screw base */}
-                  <rect
-                    x="40"
-                    y="87"
-                    width="20"
-                    height="18"
-                    rx="3"
-                    fill="currentColor"
-                    className="text-muted-foreground"
-                    opacity="0.5"
-                  />
+                    {/* Highlight on bulb for depth */}
+                    <ellipse
+                      cx="38"
+                      cy="30"
+                      rx="12"
+                      ry="15"
+                      fill="white"
+                      opacity="0.3"
+                    />
 
-                  {/* Screw lines */}
-                  <line
-                    x1="50"
-                    y1="87"
-                    x2="50"
-                    y2="105"
-                    stroke="currentColor"
-                    className="text-muted-foreground"
-                    strokeWidth="1"
-                    opacity="0.3"
-                  />
-                </svg>
+                    {/* Base of bulb */}
+                    <rect
+                      x="42"
+                      y="75"
+                      width="16"
+                      height="12"
+                      rx="2"
+                      fill="currentColor"
+                      className="text-foreground"
+                    />
+
+                    {/* Screw base */}
+                    <rect
+                      x="40"
+                      y="87"
+                      width="20"
+                      height="18"
+                      rx="3"
+                      fill="currentColor"
+                      className="text-muted-foreground"
+                      opacity="0.5"
+                    />
+
+                    {/* Screw lines */}
+                    <line
+                      x1="50"
+                      y1="87"
+                      x2="50"
+                      y2="105"
+                      stroke="currentColor"
+                      className="text-muted-foreground"
+                      strokeWidth="1"
+                      opacity="0.3"
+                    />
+                  </svg>
+                </div>
+
+                {/* Color value display */}
+                <p className="mt-6 font-mono text-sm text-foreground">
+                  {inputColor}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {hasChangedColor ? "Preview - not sent yet" : "Currently on"}
+                </p>
               </div>
 
-              {/* Color value display */}
-              <p className="mt-6 font-mono text-sm text-foreground">
-                {inputColor}
-              </p>
+              {/* Custom Color Picker */}
+              <div>
+                <label className="text-xs text-muted-foreground block mb-3">
+                  Choose Color
+                </label>
+                <ColorPicker
+                  value={inputColor}
+                  onChange={setInputColor}
+                  isLoading={isLoading}
+                />
+              </div>
             </div>
+          </Card>
 
-            {/* Custom Color Picker */}
-            <div>
-              <label className="text-xs text-muted-foreground block mb-3">
-                Choose Color
-              </label>
-              <ColorPicker
-                value={inputColor}
-                onChange={handleColorChange}
-                isLoading={isLoading}
-              />
+          {/* Sign-in Card */}
+          <Card className="p-6 border-border bg-card">
+            <div className="space-y-6">
+              <div>
+                <h4 className="font-mono text-sm font-semibold text-foreground mb-2">
+                  SIGN_THE_CHANGE
+                </h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Pick a color, then leave your name so I know who did it. A
+                  message is optional - say hi, tell me what the color is for,
+                  whatever. It goes straight to my phone.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="light-name"
+                  className="text-xs text-muted-foreground block"
+                >
+                  Your name
+                </label>
+                <Input
+                  id="light-name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  maxLength={NAME_MAX_LENGTH}
+                  placeholder="Who's turning the lights?"
+                  required
+                  autoComplete="nickname"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="light-message"
+                  className="text-xs text-muted-foreground block"
+                >
+                  Message (optional)
+                </label>
+                <Textarea
+                  id="light-message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  maxLength={MESSAGE_MAX_LENGTH}
+                  rows={3}
+                  placeholder="Anything you want to say"
+                />
+                <p className="text-xs text-muted-foreground text-right font-mono">
+                  {message.length}/{MESSAGE_MAX_LENGTH}
+                </p>
+              </div>
+
+              <Button type="submit" disabled={!canSubmit} className="w-full">
+                {isSending ? "Updating light..." : "Change the light"}
+              </Button>
+
+              <div className="pt-4 border-t border-border space-y-2">
+                <p className="text-xs text-muted-foreground">
+                  <span className="font-mono text-accent">Connection:</span>
+                  {isLoading ? (
+                    <span className="ml-2 text-muted-foreground">
+                      Loading...
+                    </span>
+                  ) : (
+                    <span className="ml-2 text-foreground">Active</span>
+                  )}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  <span className="font-mono text-accent">Current Color:</span>
+                  <span className="ml-2 text-foreground font-mono">
+                    {currentColor}
+                  </span>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  <span className="font-mono text-accent">RGB Value:</span>
+                  <span className="ml-2 text-foreground font-mono">
+                    rgb({hexToRgb(currentColor)})
+                  </span>
+                </p>
+              </div>
             </div>
-
-            {isSending && (
-              <p className="text-xs text-muted-foreground animate-pulse text-center">
-                Updating light...
-              </p>
-            )}
-          </div>
-        </Card>
-
-        {/* Info Card */}
-        <Card className="p-6 border-border bg-card">
-          <div className="space-y-4">
-            <div>
-              <h4 className="font-mono text-sm font-semibold text-foreground mb-2">
-                INTERACT
-              </h4>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Drag around the color wheel to explore millions of hues. Adjust the
-                brightness slider to find the perfect mood for the apartment. The
-                light responds in real-time as you select colors—watch the bulb
-                preview glow with your choice before it updates.
-              </p>
-            </div>
-
-            <div className="pt-4 border-t border-border">
-              <p className="text-xs text-muted-foreground">
-                <span className="font-mono text-accent">Connection:</span>
-                {isLoading ? (
-                  <span className="ml-2 text-muted-foreground">Loading...</span>
-                ) : (
-                  <span className="ml-2 text-foreground">Active</span>
-                )}
-              </p>
-            </div>
-
-            <div className="pt-2 space-y-2">
-              <p className="text-xs text-muted-foreground">
-                <span className="font-mono text-accent">Current Color:</span>
-                <span className="ml-2 text-foreground font-mono">
-                  {currentColor}
-                </span>
-              </p>
-              <p className="text-xs text-muted-foreground">
-                <span className="font-mono text-accent">RGB Value:</span>
-                <span className="ml-2 text-foreground font-mono">
-                  rgb({hexToRgb(currentColor)})
-                </span>
-              </p>
-            </div>
-          </div>
-        </Card>
-      </div>
+          </Card>
+        </div>
+      </form>
     </div>
   );
 }

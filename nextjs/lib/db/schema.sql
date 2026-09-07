@@ -51,3 +51,18 @@ CREATE TABLE IF NOT EXISTS click_ips (
   last_click_time TIMESTAMP NOT NULL,
   created_at TIMESTAMP DEFAULT NOW() NOT NULL
 );
+
+-- Public light control submissions (name + optional message per color change)
+CREATE TABLE IF NOT EXISTS light_changes (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(40) NOT NULL,
+  message VARCHAR(280),
+  color VARCHAR(7) NOT NULL,
+  brightness INTEGER,
+  ip_hash VARCHAR(64),
+  user_agent TEXT,
+  created_at TIMESTAMP DEFAULT NOW() NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_light_changes_created_at ON light_changes(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_light_changes_ip_hash ON light_changes(ip_hash, created_at DESC);
